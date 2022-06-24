@@ -1,0 +1,3 @@
+<?php
+define('TOKEN', 'Enter Your Token Here');
+define('BASE_URL', "https://www.kaiheila.cn");
