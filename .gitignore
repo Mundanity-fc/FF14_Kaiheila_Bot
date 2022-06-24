@@ -1,7 +1,7 @@
-./vendor/
-./vendor/*
-./config.php
-./session.pid
-./trash.php
-./.idea/
-./.idea/*
+/vendor/
+/vendor/*
+/config.php
+/session.pid
+/trash.php
+/.idea/
+/.idea/*
