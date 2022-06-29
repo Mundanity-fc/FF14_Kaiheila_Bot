@@ -2,9 +2,10 @@
 
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/config.php';
-require __DIR__ . '/taskProcessor.php';
+require __DIR__ . '/KaiheilaBot/commandInterpreter/TaskProcessor.php';
 
 use kaiheila\api\base\WebsocketSession;
+use KaiheilaBot\Interpreter\TaskProcessor;
 use Swlib\Saber;
 
 function mainWork()
@@ -24,7 +25,7 @@ function mainWork()
         ]
     ]);
 
-    $processor = new taskProcessor($dbConn, $httpConn);
+    $processor = new TaskProcessor($dbConn, $httpConn);
 
     // 构造 Websocket 通讯对象
     $session = new WebsocketSession(TOKEN, BASE_URL, __DIR__ . '/session.pid');
