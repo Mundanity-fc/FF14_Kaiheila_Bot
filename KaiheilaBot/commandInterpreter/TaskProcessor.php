@@ -1,8 +1,10 @@
 <?php
 
+namespace KaiheilaBot\Interpreter;
+
 use Swlib\Saber;
 
-class taskProcessor
+class TaskProcessor
 {
     public bool $loop;
     public array $commandList = [];
