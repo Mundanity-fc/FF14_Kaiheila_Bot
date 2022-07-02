@@ -1,25 +1,28 @@
 <?php
 
 namespace KaiheilaBot\Interpreter;
+require __DIR__ . '/../httpAPI/SendMessage.php';
 
-use Swlib\Saber;
+use Kaiheila\httpAPI\SendMessage;
 
 class TaskProcessor
 {
     public bool $loop;
     public array $commandList = [];
+    public array $messageInfo = [];
     public $dbConn;
-    public Saber $httpConn;
+    public SendMessage $httpAPI;
 
-    public function __construct($dbConn, $httpConn)
+    public function __construct($dbConn, $httpAPI)
     {
         $this->dbConn = $dbConn;
-        $this->httpConn = $httpConn;
+        $this->httpAPI = $httpAPI;
     }
 
-    function run($command): void
+    function run($command, $messageInfo): void
     {
         $this->commandSplit($command);
+        $this->messageInfo = $messageInfo;
         $this->taskChecker();
     }
 
@@ -34,25 +37,25 @@ class TaskProcessor
         if ($this->commandList[0] === '任务') {
             $this->questSearch();
         } else {
-            echo '错误指令';
+            $this->httpAPI->sendText('错误指令', $this->messageInfo['channelID'], true, $this->messageInfo['messageID']);
         }
     }
 
     function questSearch(): void
     {
         if (count($this->commandList) !== 2) {
-            echo '指令参数有误，请确认后重新输入';
+            $this->httpAPI->sendText('指令参数有误，请确认后重新输入', $this->messageInfo['channelID'], true, $this->messageInfo['messageID']);
         } else {
             $searchSQL = 'select * from questlist where questlist.quest = \'' . $this->commandList[1] . '\'';
             $result = pg_query($this->dbConn, $searchSQL);
             if (!$result) {
-                echo '数据库出错';
+                $this->httpAPI->sendText('数据库出错', $this->messageInfo['channelID'], true, $this->messageInfo['messageID']);
             }
             $questList = pg_fetch_assoc($result);
             if (!$questList) {
-                echo '没有结果，请确保输入的任务名正确！';
+                $this->httpAPI->sendText('没有结果，请确保输入的任务名正确！', $this->messageInfo['channelID'], true, $this->messageInfo['messageID']);
             } else {
-                echo '没写呢';
+                $this->httpAPI->sendText('没写呢', $this->messageInfo['channelID'], true, $this->messageInfo['messageID']);
             }
         }
     }
