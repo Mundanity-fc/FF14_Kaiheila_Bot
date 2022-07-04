@@ -2,10 +2,11 @@
 
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/config.php';
-require __DIR__ . '/taskProcessor.php';
+require __DIR__ . '/KaiheilaBot/commandInterpreter/TaskProcessor.php';
 
 use kaiheila\api\base\WebsocketSession;
-use Swlib\Saber;
+use Kaiheila\httpAPI\SendMessage;
+use KaiheilaBot\Interpreter\TaskProcessor;
 
 function mainWork()
 {
@@ -16,15 +17,8 @@ function mainWork()
     $dbConn = pg_connect($dbConn_opts);
 
     // 构造 http 通讯对象
-    $httpConn = Saber::create([
-        'base_uri' => "https://www.kaiheila.cn",
-        'headers' => [
-            'Content-Type' => 'application/json',
-            'Authorization' => 'Bot ' . TOKEN
-        ]
-    ]);
-
-    $processor = new taskProcessor($dbConn, $httpConn);
+    $httpAPI = new SendMessage(TOKEN);
+    $processor = new TaskProcessor($dbConn, $httpAPI, XIVAPIPrivateKey);
 
     // 构造 Websocket 通讯对象
     $session = new WebsocketSession(TOKEN, BASE_URL, __DIR__ . '/session.pid');
@@ -32,12 +26,18 @@ function mainWork()
     // Websocket 消息监听
     $session->on('GROUP*', function ($frame) use ($session, $processor) {
         $session->log('receiveGroup', '收到频道消息');
-        $messageData = $frame->d["content"];
-        $sender = $frame->d["extra"]["author"]["username"];
-        $channel = $frame->d["extra"]["channel_name"];
+        $messageData = $frame->d['content'];
+        $messageInfo = array(
+            'channelID' => $frame->d['target_id'],
+            'messageID' => $frame->d['msg_id'],
+            'senderID' => $frame->d['author_id'],
+            'serverID' => $frame->d['extra']['guild_id'],
+            'channelName' => $frame->d['extra']['channel_name'],
+            'senderName' => $frame->d['extra']['author']['username']
 
+        );
         if (str_starts_with($messageData, '/')) {
-            $processor->run($messageData);
+            $processor->run($messageData, $messageInfo);
         }
 
     });

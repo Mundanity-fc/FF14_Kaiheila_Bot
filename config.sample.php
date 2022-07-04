@@ -40,3 +40,11 @@ const DbPassword = '';
 // Database Name
 // 欲使用的数据库名
 const DbName = 'FF14Bot';
+
+/*
+ * XIVAPI Setting
+ */
+
+// XIVAPI Private API Key
+// XIVAPI 的开发者账户 API 密钥
+const XIVAPIPrivateKey = '';
