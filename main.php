@@ -18,7 +18,7 @@ function mainWork()
 
     // 构造 http 通讯对象
     $httpAPI = new SendMessage(TOKEN);
-    $processor = new TaskProcessor($dbConn, $httpAPI);
+    $processor = new TaskProcessor($dbConn, $httpAPI, XIVAPIPrivateKey);
 
     // 构造 Websocket 通讯对象
     $session = new WebsocketSession(TOKEN, BASE_URL, __DIR__ . '/session.pid');
