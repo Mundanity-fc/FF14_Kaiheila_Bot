@@ -15,14 +15,30 @@ use Swlib\Saber;
 
 class TaskProcessor
 {
+    /*
+     * 类属性
+     * 包含总体需调用到的对象等
+     * */
+
+    //循环判定，目前未想好功能，可能最后利用循环指令栈代替
     public bool $loop;
+    //指令列表，对每条指令进行划分
     public array $commandList = [];
+    //频道信息属性数组，其中包含了信息的发送人及频道id等信息
     public array $messageInfo = [];
+    //数据库连接对象
     public $dbConn;
+    //Kook服务器通讯对象
     public SendMessage $httpAPI;
+    //XIV查询对象
     public $XIVAPI;
+    //XIV开发者Key,由于使用Cafemaker镜像，暂时无用
     public $XIVAPIKey;
 
+    /*
+     * 构造函数
+     * 传递数据库对象、Kook通讯对象与XIV开发者密钥
+     * */
     public function __construct($dbConn, $httpAPI, $XIVAPIKey)
     {
         $this->dbConn = $dbConn;
@@ -31,6 +47,10 @@ class TaskProcessor
         $this->XIVAPIKey = 'private_key=' . $XIVAPIKey;
     }
 
+    /*
+     * 运行函数
+     * 为该类的总函数，进行指令的处理
+     * */
     public function run($command, $messageInfo): void
     {
         $this->commandSplit($command);
@@ -38,12 +58,20 @@ class TaskProcessor
         $this->taskChecker();
     }
 
+    /*
+     * 指令参数分割函数
+     * 负责对指令进行参数拆分，以第一个空格未分割，划分为[指令]与[参数]两部分，其中[参数]部分存在可以再分的情况，需要在次级函数中进行再次分割
+     * */
     private function commandSplit($commandSplit): void
     {
         $this->commandList = explode(' ', $commandSplit, 2);
         $this->commandList[0] = substr($this->commandList[0], 1);
     }
 
+    /*
+     * 指令检测函数
+     * 负责对指令进行循论查找，找不到则返回错误指令报告
+     * */
     private function taskChecker(): void
     {
         if ($this->commandList[0] === '任务') {
@@ -53,6 +81,10 @@ class TaskProcessor
         }
     }
 
+    /*
+     * 查询任务指令处理函数
+     * 负责处理获取的任务查询指令，包括参数分析与数据库的查询
+     * */
     private function questSearch(): void
     {
         if (count($this->commandList) !== 2) {
@@ -73,9 +105,52 @@ class TaskProcessor
         }
     }
 
+    /*
+     * 查询任务指令任务信息构造函数
+     * 负责从 XIVAPI 获取指定任务的信息，并将对应 JSON 信息转换为数组，供 processQuestInfo 函数进行信息构造
+     * */
     private function getQuestInfo($questID): array
     {
-        $data = $this->XIVAPI->get('/quest/' . $questID . '?columns=Name,Banner,TextData.ToDo,PlaceName.Name,GilReward,ExperiencePoints,ItemCountReward0,ItemCountReward1,ItemCountReward2,ItemCountReward3,ItemCountReward4,ItemCountReward5,ItemCountReward6,ItemReward0,ItemReward1,ItemReward2,ItemReward3,ItemReward4,ItemReward5,ItemReward6,Icon,IssuerStart.Name,TargetEnd.Name,ClassJobCategory0.Name,JournalGenre.JournalCategory.Name,JournalGenre.Name');
+        //任务具体信息筛选
+        $searchCondition = "?columns=Name,
+        Banner,
+        TextData.ToDo,
+        PlaceName.Name,
+        GilReward,
+        ExperiencePoints,
+        ItemCountReward0,
+        ItemCountReward1,
+        ItemCountReward2,
+        ItemCountReward3,
+        ItemCountReward4,
+        ItemCountReward5,
+        ItemCountReward6,
+        ItemReward0,
+        ItemReward1,
+        ItemReward2,
+        ItemReward3,
+        ItemReward4,
+        ItemReward5,
+        ItemReward6,
+        OptionalItemCountReward0,
+        OptionalItemCountReward1,
+        OptionalItemCountReward2,
+        OptionalItemCountReward3,
+        OptionalItemCountReward4,
+        OptionalItemReward0,
+        OptionalItemReward1,
+        OptionalItemReward2,
+        OptionalItemReward3,
+        OptionalItemReward4,
+        Icon,
+        IssuerStart.Name,
+        TargetEnd.Name,
+        ClassJobCategory0.Name,
+        JournalGenre.JournalCategory.Name,
+        JournalGenre.Name";
+        //字符串格式化
+        $searchCondition = str_replace(array("\r", "\n", " "), "", $searchCondition);
+        $data = $this->XIVAPI->get('/quest/' . $questID . $searchCondition);
         $data = json_decode($data->body);
         $dataArray = array(
             'Name' => $data->Name,
@@ -104,21 +179,44 @@ class TaskProcessor
             'Item4' => $data->ItemReward4,
             'Item5' => $data->ItemReward5,
             'Item6' => $data->ItemReward6,
+            'OptionNum0' => $data->OptionalItemCountReward0,
+            'OptionNum1' => $data->OptionalItemCountReward1,
+            'OptionNum2' => $data->OptionalItemCountReward2,
+            'OptionNum3' => $data->OptionalItemCountReward3,
+            'OptionNum4' => $data->OptionalItemCountReward4,
+            'Option0' => $data->OptionalItemReward0,
+            'Option1' => $data->OptionalItemReward1,
+            'Option2' => $data->OptionalItemReward2,
+            'Option3' => $data->OptionalItemReward3,
+            'Option4' => $data->OptionalItemReward4,
         );
         return $dataArray;
     }
 
+    /*
+     * 查询任务指令频道信息构造函数
+     * 利用 getQuestInfo 函数返回的信息数组进行频道卡片信息的合成，并返回给 questSearch 函数
+     * */
     private function processQuestInfo($questArray): string
     {
+        //卡片总框架
         $infoCard = new Card();
+
+        //任务标题信息框架
         $questTitle = new ImageText('**[' . $questArray['Name'] . '](https://ff14.huijiwiki.com/wiki/任务:' . $questArray['Name'] . ')**', 'https://cafemaker.wakingsands.com' . $questArray['Icon'], 'kmarkdown');
         $infoCard->insert($questTitle);
+
+        //任务图片框架
         if ($questArray['Banner'] !== '') {
             $questBanner = new Image('https://xivapi.com' . $questArray['Banner']);
             $infoCard->insert($questBanner);
         }
+
+        //分割线
         $divider = new Divider();
         $infoCard->insert($divider);
+
+        //任务详情信息框架
         $detailInfo = new MultiColumnText();
         if (is_null($questArray['MainCategory'])) {
             $detailInfo->insert("**主分类**\n", 'kmarkdown');
@@ -133,6 +231,8 @@ class TaskProcessor
         $infoCard->insert($detailInfo);
         $infoCard->insert($divider);
         $data = array($infoCard);
+
+        //报酬框架
         if ($questArray['Money'] !== 0 || $questArray['Exp'] !== 0 || $questArray['ItemNum0'] !== 0) {
             $rewardCard = new Card();
             $rewardTitle = new PlainText('任务报酬', 'plain-text', 'header');
@@ -189,11 +289,17 @@ class TaskProcessor
             }
             array_push($data, $rewardCard);
         }
+
+        //任务目标框架
         if (!is_null($questArray['TodoList'])) {
             $todoCard = new Card();
             $todoTitle = new PlainText('任务目的', 'plain-text', 'header');
             $todoCard->insert($todoTitle);
             foreach ($questArray['TodoList'] as $todo) {
+                //跳过空内容
+                if ($todo->Text === "空") {
+                    continue;
+                }
                 $TodoText = new PlainText('(spl)' . $todo->Text . '(spl)', 'kmarkdown');
                 $todoCard->insert($TodoText);
             }
