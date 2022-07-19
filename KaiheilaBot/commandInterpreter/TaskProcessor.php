@@ -290,6 +290,44 @@ class TaskProcessor
             array_push($data, $rewardCard);
         }
 
+        //可选报酬框架
+        if ($questArray['OptionNum0'] !== 0) {
+            $OptionCard = new Card();
+            $OptionTitle = new PlainText('可选报酬', 'plain-text', 'header');
+            $OptionCard->insert($OptionTitle);
+            if ($questArray['OptionNum0']) {
+                $Option0Name = $this->XIVAPI->get('/item/' . $questArray['Option0']->ID . '?columns=Name');
+                $Option0Name = json_decode($Option0Name->body)->Name;
+                $Option0 = new ImageText('x' . $questArray['OptionNum0'] . ' [' . $Option0Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option0Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option0']->Icon, 'kmarkdown');
+                $OptionCard->insert($Option0);
+            }
+            if ($questArray['OptionNum1']) {
+                $Option1Name = $this->XIVAPI->get('/item/' . $questArray['Option1']->ID . '?columns=Name');
+                $Option1Name = json_decode($Option1Name->body)->Name;
+                $Option1 = new ImageText('x' . $questArray['OptionNum1'] . ' [' . $Option1Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option1Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option1']->Icon, 'kmarkdown');
+                $OptionCard->insert($Option1);
+            }
+            if ($questArray['OptionNum2']) {
+                $Option2Name = $this->XIVAPI->get('/item/' . $questArray['Option2']->ID . '?columns=Name');
+                $Option2Name = json_decode($Option2Name->body)->Name;
+                $Option2 = new ImageText('x' . $questArray['OptionNum2'] . ' [' . $Option2Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option2Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option2']->Icon, 'kmarkdown');
+                $OptionCard->insert($Option2);
+            }
+            if ($questArray['OptionNum3']) {
+                $Option3Name = $this->XIVAPI->get('/item/' . $questArray['Option3']->ID . '?columns=Name');
+                $Option3Name = json_decode($Option3Name->body)->Name;
+                $Option3 = new ImageText('x' . $questArray['OptionNum3'] . ' [' . $Option3Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option3Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option3']->Icon, 'kmarkdown');
+                $OptionCard->insert($Option3);
+            }
+            if ($questArray['OptionNum4']) {
+                $Option4Name = $this->XIVAPI->get('/item/' . $questArray['Option4']->ID . '?columns=Name');
+                $Option4Name = json_decode($Option4Name->body)->Name;
+                $Option4 = new ImageText('x' . $questArray['OptionNum4'] . ' [' . $Option4Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option4Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option4']->Icon, 'kmarkdown');
+                $OptionCard->insert($Option4);
+            }
+            array_push($data, $OptionCard);
+        }
+
         //任务目标框架
         if (!is_null($questArray['TodoList'])) {
             $todoCard = new Card();
