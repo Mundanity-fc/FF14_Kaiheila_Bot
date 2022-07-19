@@ -142,12 +142,19 @@ class TaskProcessor
         OptionalItemReward2,
         OptionalItemReward3,
         OptionalItemReward4,
+        ItemCountCatalyst0,
+        ItemCountCatalyst1,
+        ItemCountCatalyst2,
+        ItemCatalyst0,
+        ItemCatalyst1,
+        ItemCatalyst2,
         Icon,
         IssuerStart.Name,
         TargetEnd.Name,
         ClassJobCategory0.Name,
         JournalGenre.JournalCategory.Name,
-        JournalGenre.Name";
+        JournalGenre.Name,
+        ActionReward.ID";
         //字符串格式化
         $searchCondition = str_replace(array("\r", "\n", " "), "", $searchCondition);
         $data = $this->XIVAPI->get('/quest/' . $questID . $searchCondition);
@@ -189,6 +196,13 @@ class TaskProcessor
             'Option2' => $data->OptionalItemReward2,
             'Option3' => $data->OptionalItemReward3,
             'Option4' => $data->OptionalItemReward4,
+            'CatalystNum0' => $data->ItemCountCatalyst0,
+            'CatalystNum1' => $data->ItemCountCatalyst1,
+            'CatalystNum2' => $data->ItemCountCatalyst2,
+            'Catalyst0' => $data->ItemCatalyst0,
+            'Catalyst1' => $data->ItemCatalyst1,
+            'Catalyst2' => $data->ItemCatalyst2,
+            'ActionReward' => $data->ActionReward->ID
         );
         return $dataArray;
     }
@@ -233,7 +247,7 @@ class TaskProcessor
         $data = array($infoCard);
 
         //报酬框架
-        if ($questArray['Money'] !== 0 || $questArray['Exp'] !== 0 || $questArray['ItemNum0'] !== 0) {
+        if ($questArray['Money'] !== 0 || $questArray['Exp'] !== 0 || $questArray['ItemNum0'] !== 0 || $questArray['CatalystNum0'] !== 0) {
             $rewardCard = new Card();
             $rewardTitle = new PlainText('任务报酬', 'plain-text', 'header');
             $rewardCard->insert($rewardTitle);
@@ -244,6 +258,24 @@ class TaskProcessor
             if ($questArray['Exp']) {
                 $expReward = new ImageText('x' . $questArray['Exp'] . ' 经验', 'https://huiji-public.huijistatic.com/ff14/uploads/b/b0/065001.png');
                 $rewardCard->insert($expReward);
+            }
+            if ($questArray['CatalystNum0']) {
+                $Catalyst0Name = $this->XIVAPI->get('/item/' . $questArray['Catalyst0']->ID . '?columns=Name');
+                $Catalyst0Name = json_decode($Catalyst0Name->body)->Name;
+                $Catalyst0Reward = new ImageText('x' . $questArray['CatalystNum0'] . ' [' . $Catalyst0Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst0Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Catalyst0']->Icon, 'kmarkdown');
+                $rewardCard->insert($Catalyst0Reward);
+            }
+            if ($questArray['CatalystNum1']) {
+                $Catalyst1Name = $this->XIVAPI->get('/item/' . $questArray['Catalyst1']->ID . '?columns=Name');
+                $Catalyst1Name = json_decode($Catalyst1Name->body)->Name;
+                $Catalyst1Reward = new ImageText('x' . $questArray['CatalystNum1'] . ' [' . $Catalyst1Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst1Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Catalyst1']->Icon, 'kmarkdown');
+                $rewardCard->insert($Catalyst1Reward);
+            }
+            if ($questArray['CatalystNum2']) {
+                $Catalyst2Name = $this->XIVAPI->get('/item/' . $questArray['Catalyst2']->ID . '?columns=Name');
+                $Catalyst2Name = json_decode($Catalyst2Name->body)->Name;
+                $Catalyst2Reward = new ImageText('x' . $questArray['CatalystNum2'] . ' [' . $Catalyst2Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst2Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Catalyst2']->Icon, 'kmarkdown');
+                $rewardCard->insert($Catalyst2Reward);
             }
             if ($questArray['ItemNum0']) {
                 $Item0Name = $this->XIVAPI->get('/item/' . $questArray['Item0']->ID . '?columns=Name');
@@ -326,6 +358,19 @@ class TaskProcessor
                 $OptionCard->insert($Option4);
             }
             array_push($data, $OptionCard);
+        }
+
+        //技能报酬框架
+        if ($questArray['ActionReward'] !== '') {
+            $ActionCard = new Card();
+            $ActionTitle = new PlainText('技能习得', 'plain-text', 'header');
+            $ActionCard->insert($ActionTitle);
+            $detail = json_decode($this->XIVAPI->get('/action/' . $questArray['ActionReward'] . '?columns=Name,IconHD')->body);
+            $ActionName = $detail->Name;
+            $ActionIcon = $detail->IconHD;
+            $Action = new ImageText($ActionName, 'https://cafemaker.wakingsands.com' . $ActionIcon, 'kmarkdown');
+            $ActionCard->insert($Action);
+            array_push($data, $ActionCard);
         }
 
         //任务目标框架
