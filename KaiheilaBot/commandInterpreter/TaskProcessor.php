@@ -361,7 +361,8 @@ class TaskProcessor
         }
 
         //技能报酬框架
-        if ($questArray['ActionReward'] !== '') {
+        if (!is_null($questArray['ActionReward'])) {
+            echo $questArray['ActionReward'];
             $ActionCard = new Card();
             $ActionTitle = new PlainText('技能习得', 'plain-text', 'header');
             $ActionCard->insert($ActionTitle);
