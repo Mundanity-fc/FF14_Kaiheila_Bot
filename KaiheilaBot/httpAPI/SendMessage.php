@@ -12,7 +12,7 @@ class SendMessage
     {
         $this->httpConn = Saber::create([
             'base_uri' => "https://www.kaiheila.cn",
-            'tiemout' => 3,
+            'timeout' => 3,
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Authorization' => 'Bot ' . $token
