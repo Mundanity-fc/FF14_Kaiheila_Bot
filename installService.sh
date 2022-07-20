@@ -18,7 +18,7 @@ echo "LimitNPROC=500" >> $service
 echo "LimitNOFILE=1000000" >> $service
 echo "ExecStart=/usr/bin/php $path" >> $service
 echo "Restart=on-failure" >> $service
-echo "StandardError=append:$errlog" >> $service
+echo "StandardError=append:$error" >> $service
 echo "" >> $service
 echo "[Install]" >> $service
 echo "WantedBy=multi-user.target" >> $service
