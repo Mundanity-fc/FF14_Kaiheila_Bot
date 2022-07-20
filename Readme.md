@@ -8,7 +8,7 @@
 
 - 完成环境的配置（包括 Swoole 拓展的启用与数据库服务器的配置导入）
 - 安装所需的 composer 包
-- 以脚本形式运行 main.php 文件
+- 以脚本形式运行 main.php 文件，或者运行 installService.sh 脚本安装 systemd 服务，然后以服务方式启动脚本 `systemctl start FF14Bot`
 
 已知问题：
 
