@@ -23,6 +23,9 @@ function mainWork()
     // 构造 Websocket 通讯对象
     $session = new WebsocketSession(TOKEN, BASE_URL, __DIR__ . '/session.pid');
 
+    //修改 log 文件位置 （BaseObject内容）
+    $session->logFile = './FF14BotMsg.log';
+
     // Websocket 消息监听
     $session->on('GROUP*', function ($frame) use ($session, $processor) {
         $session->log('receiveGroup', '收到频道消息');
