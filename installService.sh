@@ -1,7 +1,6 @@
 #!/bin/bash
 path="`pwd`/main.php"
-stdlog="`pwd`/journal.log"
-errlog="`pwd`/errors.log"
+error="`pwd`/FF14BotErr.log"
 service="/lib/systemd/system/FF14Bot.service"
 if test -e $service
 then
@@ -19,7 +18,6 @@ echo "LimitNPROC=500" >> $service
 echo "LimitNOFILE=1000000" >> $service
 echo "ExecStart=/usr/bin/php $path" >> $service
 echo "Restart=on-failure" >> $service
-echo "StandardOutput=append:$stdlog" >> $service
 echo "StandardError=append:$errlog" >> $service
 echo "" >> $service
 echo "[Install]" >> $service
