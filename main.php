@@ -24,7 +24,7 @@ function mainWork()
     $session = new WebsocketSession(TOKEN, BASE_URL, __DIR__ . '/session.pid');
 
     //修改 log 文件位置 （BaseObject内容）
-    $session->logFile = './FF14BotMsg.log';
+    $session->logFile = __DIR__ . '/FF14BotMsg.log';
 
     // Websocket 消息监听
     $session->on('GROUP*', function ($frame) use ($session, $processor) {
