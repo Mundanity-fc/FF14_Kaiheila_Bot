@@ -24,6 +24,7 @@ echo "[Install]" >> $service
 echo "WantedBy=multi-user.target" >> $service
 if test -e $service
 then
+  systemctl daemon-reload
   echo "已创建服务，请运行 systemctl start FF14Bot 执行该服务"
   exit
 else
