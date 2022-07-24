@@ -6,14 +6,16 @@ require __DIR__ . '/KaiheilaBot/commandInterpreter/TaskProcessor.php';
 
 use kaiheila\api\base\WebsocketSession;
 use Kaiheila\httpAPI\SendMessage;
-use KaiheilaBot\Interpreter\TaskProcessor;
+use KaiheilaBot\commandInterpreter\TaskProcessor;
 
 function mainWork()
 {
     $loop = false;
 
     // 构造数据库链接对象
+    $dbType = DbType;
     $dbConn_opts = 'host=' . DbHost . ' port=' . DbPort . ' dbname=' . DbName . ' user=' . DbUsername . ' password=' . DbPassword;
+    //$dbConn = array($dbType, $dbConn_opts);
     $dbConn = pg_connect($dbConn_opts);
 
     // 构造 http 通讯对象
@@ -37,12 +39,10 @@ function mainWork()
             'serverID' => $frame->d['extra']['guild_id'],
             'channelName' => $frame->d['extra']['channel_name'],
             'senderName' => $frame->d['extra']['author']['username']
-
         );
         if (str_starts_with($messageData, '/')) {
             $processor->run($messageData, $messageInfo);
         }
-
     });
 
     $session->start();
