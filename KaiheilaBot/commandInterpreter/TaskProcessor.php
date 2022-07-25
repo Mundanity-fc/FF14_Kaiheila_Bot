@@ -28,8 +28,10 @@ class TaskProcessor
     private $db;
     //Kook服务器通讯对象
     private SendMessage $httpAPI;
+    //机器人状态
+    private array $status = [];
 
-    //
+    //任务检索对象
     private $QuestSearch;
 
     /*
@@ -46,6 +48,10 @@ class TaskProcessor
         }
         $this->httpAPI = $httpAPI;
         $this->QuestSearch = new QuestSearch($this->db, $XIVAPIKey);
+        $this->status = array(
+            'start' => date('c'),
+            'commandCount' => 0,
+            'correctCount' => 0);
     }
 
     /*
@@ -54,6 +60,7 @@ class TaskProcessor
      * */
     public function run($command, $messageInfo): void
     {
+        ++$this->status['commandCount'];
         $this->commandSplit($command);
         $this->messageInfo = $messageInfo;
         $this->taskChecker();
@@ -76,6 +83,40 @@ class TaskProcessor
         }
     }
 
+    private function getStatus(): array
+    {
+        $time_diff = date_diff(date_create($this->status['start']), date_create(date('c')));
+        $timeString1 = '机器人本次启动于：' . substr($this->status['start'], 0, 10) . ' ' . substr($this->status['start'], 11, 8) . "\n";
+        $timeString2 = '至今已运行了：';
+        if ($time_diff->y !== 0) {
+            $timeString2 .= $time_diff->y . '年';
+        }
+        if ($time_diff->m !== 0) {
+            $timeString2 .= $time_diff->m . '月';
+        }
+        if ($time_diff->d !== 0) {
+            $timeString2 .= $time_diff->d . '天';
+        }
+        if ($time_diff->h !== 0) {
+            $timeString2 .= $time_diff->h . '小时';
+        }
+        if ($time_diff->i !== 0) {
+            $timeString2 .= $time_diff->i . '分钟';
+        }
+        if ($time_diff->s !== 0) {
+            $timeString2 .= $time_diff->s . '秒';
+        }
+        $timeString2 .= "\n";
+        $timeString3 = '目前，机器人已经响应了 ' . $this->status['commandCount'] . ' 条指令，其中正确执行的有效指令有 ' . $this->status['correctCount'] . ' 条';
+        $msg = $timeString1 . $timeString2 . $timeString3;
+        $target_id = $this->messageInfo['channelID'];
+        $is_quote = true;
+        $quote = $this->messageInfo['messageID'];
+        $type = 1;
+        return array($msg, $target_id, $is_quote, $quote, $type);
+    }
+
+
     /*
      * 指令检测函数
      * 负责对指令进行循论查找，找不到则返回错误指令报告
@@ -84,28 +125,36 @@ class TaskProcessor
     {
         switch ($this->commandList[0]) {
             case '任务':
+                ++$this->status['correctCount'];
                 $data = $this->QuestSearch->run($this->commandList, $this->messageInfo);
                 break;
             case '状态':
-                //Code here 1
+                ++$this->status['correctCount'];
+                $data = $this->getStatus();
                 break;
             case '物品':
                 //Code here 2
+                ++$this->status['correctCount'];
                 break;
             case '价格':
                 //Code here 3
+                ++$this->status['correctCount'];
                 break;
             case 'C2E':
                 //Code here 4
+                ++$this->status['correctCount'];
                 break;
             case 'C2J':
                 //Code here 5
+                ++$this->status['correctCount'];
                 break;
             case 'E2C':
                 //Code here 6
+                ++$this->status['correctCount'];
                 break;
             case 'J2C':
                 //Code here 7
+                ++$this->status['correctCount'];
                 break;
             default:
                 $msg = '错误指令';
