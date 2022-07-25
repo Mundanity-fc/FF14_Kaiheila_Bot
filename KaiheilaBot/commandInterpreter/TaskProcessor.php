@@ -82,15 +82,39 @@ class TaskProcessor
      * */
     private function taskChecker(): void
     {
-        if ($this->commandList[0] === '任务') {
-            $data = $this->QuestSearch->run($this->commandList, $this->messageInfo);
-        } else {
-            $msg = '错误指令';
-            $target_id = $this->messageInfo['channelID'];
-            $is_quote = true;
-            $quote = $this->messageInfo['messageID'];
-            $type = 1;
-            $data = array($msg, $target_id, $is_quote, $quote, $type);
+        switch ($this->commandList[0]) {
+            case '任务':
+                $data = $this->QuestSearch->run($this->commandList, $this->messageInfo);
+                break;
+            case '状态':
+                //Code here 1
+                break;
+            case '物品':
+                //Code here 2
+                break;
+            case '价格':
+                //Code here 3
+                break;
+            case 'C2E':
+                //Code here 4
+                break;
+            case 'C2J':
+                //Code here 5
+                break;
+            case 'E2C':
+                //Code here 6
+                break;
+            case 'J2C':
+                //Code here 7
+                break;
+            default:
+                $msg = '错误指令';
+                $target_id = $this->messageInfo['channelID'];
+                $is_quote = true;
+                $quote = $this->messageInfo['messageID'];
+                $type = 1;
+                $data = array($msg, $target_id, $is_quote, $quote, $type);
+                break;
         }
         $this->httpAPI->sendText($data[0], $data[1], $data[2], $data[3], $data[4]);
     }
