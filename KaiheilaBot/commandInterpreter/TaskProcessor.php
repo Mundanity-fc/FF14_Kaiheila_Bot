@@ -3,7 +3,11 @@
 namespace KaiheilaBot\commandInterpreter;
 require __DIR__ . '/../httpAPI/SendMessage.php';
 require __DIR__ . '/module/QuestSearch.php';
+require __DIR__ . '/../databaseManager/mysql.php';
+require __DIR__ . '/../databaseManager/postgresql.php';
 
+use Kaiheila\databaseManager\mysql;
+use Kaiheila\databaseManager\postgresql;
 use Kaiheila\httpAPI\SendMessage;
 use KaiheilaBot\commandInterpreter\module\QuestSearch;
 
@@ -21,7 +25,7 @@ class TaskProcessor
     //频道信息属性数组，其中包含了信息的发送人及频道id等信息
     private array $messageInfo = [];
     //数据库连接对象
-    private $dbConn;
+    private $db;
     //Kook服务器通讯对象
     private SendMessage $httpAPI;
 
@@ -32,10 +36,16 @@ class TaskProcessor
      * 构造函数
      * 传递数据库对象、Kook通讯对象与XIV开发者密钥
      * */
-    public function __construct($dbConn, $httpAPI, $XIVAPIKey)
+    public function __construct($dbSetting, $httpAPI, $XIVAPIKey)
     {
+        if ($dbSetting[0] === 'PostgreSQL') {
+            $this->db = new postgresql($dbSetting[1]);
+        }
+        if ($dbSetting[0] === 'MySQL') {
+            $this->db = new mysql($dbSetting[1]);
+        }
         $this->httpAPI = $httpAPI;
-        $this->QuestSearch = new QuestSearch($dbConn, $XIVAPIKey);
+        $this->QuestSearch = new QuestSearch($this->db, $XIVAPIKey);
     }
 
     /*
@@ -57,6 +67,13 @@ class TaskProcessor
     {
         $this->commandList = explode(' ', $commandSplit, 2);
         $this->commandList[0] = substr($this->commandList[0], 1);
+
+        //去除诸如 “/任务 ”，这样的错误指令
+        if (count($this->commandList) === 2) {
+            if ($this->commandList[1] === "") {
+                array_pop($this->commandList);
+            }
+        }
     }
 
     /*

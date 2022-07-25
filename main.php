@@ -12,15 +12,19 @@ function mainWork()
 {
     $loop = false;
 
-    // 构造数据库链接对象
-    $dbType = DbType;
-    $dbConn_opts = 'host=' . DbHost . ' port=' . DbPort . ' dbname=' . DbName . ' user=' . DbUsername . ' password=' . DbPassword;
-    //$dbConn = array($dbType, $dbConn_opts);
-    $dbConn = pg_connect($dbConn_opts);
+    // 构造数据库链接参数
+    if (DbType === 'PostgreSQL') {
+        $dbConn_opts = 'host=' . DbHost . ' port=' . DbPort . ' dbname=' . DbName . ' user=' . DbUsername . ' password=' . DbPassword;
+        $dbSetting = array(DbType, $dbConn_opts);
+    }
+    if (DbType === 'MySQL') {
+        $dbConn_opts = array(DbHost, DbUsername, DbPassword, DbName, DbPort);
+        $dbSetting = array(DbType, $dbConn_opts);
+    }
 
     // 构造 http 通讯对象
     $httpAPI = new SendMessage(TOKEN);
-    $processor = new TaskProcessor($dbConn, $httpAPI, XIVAPIPrivateKey);
+    $processor = new TaskProcessor($dbSetting, $httpAPI, XIVAPIPrivateKey);
 
     // 构造 Websocket 通讯对象
     $session = new WebsocketSession(TOKEN, BASE_URL, __DIR__ . '/session.pid');

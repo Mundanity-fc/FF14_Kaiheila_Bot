@@ -38,9 +38,25 @@ class QuestSearch extends CommandParser
             $type = 1;
             $data = array($msg, $target_id, $is_quote, $quote, $type);
         } else {
-            $searchSQL = 'select questlist.id from questlist where questlist.quest = \'' . $this->commandList[1] . '\'';
-            $result = pg_query($this->dbConn, $searchSQL);
-            if (!$result) {
+            //检索中文列表
+            $search = $this->db->search('questlist.id', 'questlist', 'questlist.quest', $this->commandList[1], '=');
+
+            //查询中文列表返回结果为空时，检索英文列表
+            if ($search[0] === 1) {
+                if (!$search[1]) {
+                    $search = $this->db->search('questlist.id', 'questlist', 'questlist.quest_en', $this->commandList[1], '=');
+                }
+            }
+
+            //查询英文列表返回结果为空时，检索日文列表
+            if ($search[0] === 1) {
+                if (!$search[1]) {
+                    $search = $this->db->search('questlist.id', 'questlist', 'questlist.quest_jp', $this->commandList[1], '=');
+                }
+            }
+
+            //无法执行 sql 语句时
+            if ($search[0] === 0) {
                 $msg = '数据库出错';
                 $target_id = $this->messageInfo['channelID'];
                 $is_quote = true;
@@ -48,51 +64,26 @@ class QuestSearch extends CommandParser
                 $type = 1;
                 $data = array($msg, $target_id, $is_quote, $quote, $type);
             }
-            $questList = pg_fetch_assoc($result);
-            //中文检测失败，进行英文检测。中文检测成功，跳过此块。
-            if (!$questList) {
-                $searchSQL = 'select questlist.id from questlist where questlist.quest_en = \'' . $this->commandList[1] . '\'';
-                $result = pg_query($this->dbConn, $searchSQL);
-                if (!$result) {
-                    $msg = '数据库出错';
+
+            //三次全部查完
+            if ($search[0] === 1) {
+                //最终结果为空时
+                if (!$search[1]) {
+                    $msg = '没有结果，请确保输入的任务名正确！';
                     $target_id = $this->messageInfo['channelID'];
                     $is_quote = true;
                     $quote = $this->messageInfo['messageID'];
                     $type = 1;
                     $data = array($msg, $target_id, $is_quote, $quote, $type);
-                }
-                $questList = pg_fetch_assoc($result);
-            }
-            //英文检测失败，进行日文检测。中文或英文检测成功，跳过此块。
-            if (!$questList) {
-                $searchSQL = 'select questlist.id from questlist where questlist.quest_jp = \'' . $this->commandList[1] . '\'';
-                $result = pg_query($this->dbConn, $searchSQL);
-                if (!$result) {
-                    $msg = '数据库出错';
+                } else {
+                    //正常检索到结果
+                    $msg = $this->processQuestInfo($this->getQuestInfo($search[1]['id']));
                     $target_id = $this->messageInfo['channelID'];
                     $is_quote = true;
                     $quote = $this->messageInfo['messageID'];
-                    $type = 1;
+                    $type = 10;
                     $data = array($msg, $target_id, $is_quote, $quote, $type);
                 }
-                $questList = pg_fetch_assoc($result);
-            }
-            //全部失败
-            if (!$questList) {
-                $msg = '没有结果，请确保输入的任务名正确！';
-                $target_id = $this->messageInfo['channelID'];
-                $is_quote = true;
-                $quote = $this->messageInfo['messageID'];
-                $type = 1;
-                $data = array($msg, $target_id, $is_quote, $quote, $type);
-            } //成功查询
-            else {
-                $msg = $this->processQuestInfo($this->getQuestInfo($questList['id']));
-                $target_id = $this->messageInfo['channelID'];
-                $is_quote = true;
-                $quote = $this->messageInfo['messageID'];
-                $type = 10;
-                $data = array($msg, $target_id, $is_quote, $quote, $type);
             }
         }
         return $data;
