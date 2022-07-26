@@ -3,6 +3,7 @@
 namespace KaiheilaBot\commandInterpreter;
 require __DIR__ . '/../httpAPI/SendMessage.php';
 require __DIR__ . '/module/QuestSearch.php';
+require __DIR__ . '/module/TextTrainslate.php';
 require __DIR__ . '/../databaseManager/mysql.php';
 require __DIR__ . '/../databaseManager/postgresql.php';
 
@@ -10,6 +11,7 @@ use Kaiheila\databaseManager\mysql;
 use Kaiheila\databaseManager\postgresql;
 use Kaiheila\httpAPI\SendMessage;
 use KaiheilaBot\commandInterpreter\module\QuestSearch;
+use KaiheilaBot\commandInterpreter\module\TextTrainslate;
 
 class TaskProcessor
 {
@@ -30,9 +32,10 @@ class TaskProcessor
     private SendMessage $httpAPI;
     //机器人状态
     private array $status = [];
-
-    //任务检索对象
+    //任务检索指令对象
     private $QuestSearch;
+    //文本翻译指令对象
+    private $TextTrainslate;
 
     /*
      * 构造函数
@@ -48,6 +51,7 @@ class TaskProcessor
         }
         $this->httpAPI = $httpAPI;
         $this->QuestSearch = new QuestSearch($this->db, $XIVAPIKey);
+        $this->TextTrainslate = new TextTrainslate($this->db, $XIVAPIKey);
         $this->status = array(
             'start' => date('c'),
             'commandCount' => 0,
@@ -76,13 +80,15 @@ class TaskProcessor
         $this->commandList[0] = substr($this->commandList[0], 1);
 
         //去除诸如 “/任务 ”，这样的错误指令
-        if (count($this->commandList) === 2) {
-            if ($this->commandList[1] === "") {
-                array_pop($this->commandList);
-            }
+        if ((count($this->commandList) === 2) && $this->commandList[1] === "") {
+            array_pop($this->commandList);
         }
     }
 
+    /*
+     * 状态查询函数
+     * 查询机器人的运行时长与指令处理数量等信息，未来可再次拓展
+     * */
     private function getStatus(): array
     {
         $time_diff = date_diff(date_create($this->status['start']), date_create(date('c')));
@@ -116,7 +122,6 @@ class TaskProcessor
         return array($msg, $target_id, $is_quote, $quote, $type);
     }
 
-
     /*
      * 指令检测函数
      * 负责对指令进行循论查找，找不到则返回错误指令报告
@@ -140,21 +145,10 @@ class TaskProcessor
                 //Code here 3
                 ++$this->status['correctCount'];
                 break;
-            case 'C2E':
+            case '翻译':
                 //Code here 4
                 ++$this->status['correctCount'];
-                break;
-            case 'C2J':
-                //Code here 5
-                ++$this->status['correctCount'];
-                break;
-            case 'E2C':
-                //Code here 6
-                ++$this->status['correctCount'];
-                break;
-            case 'J2C':
-                //Code here 7
-                ++$this->status['correctCount'];
+                $data = $this->TextTrainslate->run($this->commandList, $this->messageInfo);
                 break;
             default:
                 $msg = '错误指令';
