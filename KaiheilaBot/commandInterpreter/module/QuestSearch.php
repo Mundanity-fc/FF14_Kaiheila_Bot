@@ -27,7 +27,6 @@ class QuestSearch extends CommandParser
      * 查询任务指令任务信息构造函数
      * 负责从 XIVAPI 获取指定任务的信息，并将对应 JSON 信息转换为数组，供 processQuestInfo 函数进行信息构造
      * */
-
     private function questSearch(): array
     {
         if (count($this->commandList) !== 2) {
@@ -93,7 +92,6 @@ class QuestSearch extends CommandParser
      * 查询任务指令频道信息构造函数
      * 利用 getQuestInfo 函数返回的信息数组进行频道卡片信息的合成，并返回给 questSearch 函数
      * */
-
     private function processQuestInfo($questArray): string
     {
         //卡片总框架
