@@ -2,7 +2,7 @@
 
 namespace KaiheilaBot\commandInterpreter\module;
 
-class TextTrainslate extends CommandParser
+class TextTranslate extends CommandParser
 {
     //参数数组，由传递来的 $command 进行再次划分得来，合法元素数量为 2
     private array $args;
