@@ -56,7 +56,7 @@ class QuestSearch extends CommandParser
 
             //无法执行 sql 语句时
             if ($search[0] === 0) {
-                $msg = '查询出错，请检查 sql 语句或数据库状态！';
+                $msg = '查询出错，请检查 sql 语句或数据库状态！（联系开发者或机器人所有者）';
                 $target_id = $this->messageInfo['channelID'];
                 $is_quote = true;
                 $quote = $this->messageInfo['messageID'];
@@ -68,7 +68,7 @@ class QuestSearch extends CommandParser
             if ($search[0] === 1) {
                 //最终结果为空时
                 if (!$search[1]) {
-                    $msg = '没有结果，请确保输入的任务名正确！';
+                    $msg = '没有结果，请确保输入的任务名正确！（英文文本区分大小写）';
                     $target_id = $this->messageInfo['channelID'];
                     $is_quote = true;
                     $quote = $this->messageInfo['messageID'];
