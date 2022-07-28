@@ -33,7 +33,7 @@ class TextTrainslate extends CommandParser
     {
         //无参数情况
         if (count($command) === 1) {
-            $msg = '指令缺少参数，请查看指令使用帮助';
+            $msg = '指令缺少参数，请查看指令使用帮助（/帮助 翻译）';
             $target_id = $this->messageInfo['channelID'];
             $is_quote = true;
             $quote = $this->messageInfo['messageID'];
@@ -52,7 +52,7 @@ class TextTrainslate extends CommandParser
 
         //只有一个参数情况
         if (count($this->args) === 1) {
-            $msg = '指令参数不完整，请查看指令使用帮助';
+            $msg = '指令参数不完整，请查看指令使用帮助（/帮助 翻译）';
             $target_id = $this->messageInfo['channelID'];
             $is_quote = true;
             $quote = $this->messageInfo['messageID'];
@@ -76,7 +76,7 @@ class TextTrainslate extends CommandParser
             $table = 'questlist';
             $col = 'quest';
         } else {
-            $msg = '参数1错误，请查询指令使用方式';
+            $msg = '参数1错误，请查询指令使用方式（/帮助 翻译）';
             $target_id = $this->messageInfo['channelID'];
             $is_quote = true;
             $quote = $this->messageInfo['messageID'];
