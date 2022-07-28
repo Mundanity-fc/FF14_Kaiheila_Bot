@@ -55,6 +55,7 @@ class TaskProcessor
         }
         $this->httpAPI = $httpAPI;
         $this->QuestSearch = new QuestSearch($this->db);
+        $this->QuestSearch->getConfig($XIVAPIKey);
         $this->TextTrainslate = new TextTrainslate($this->db);
         $this->Healper = new Helper($this->db);
         $this->status = array(
