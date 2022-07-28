@@ -4,12 +4,14 @@ namespace KaiheilaBot\commandInterpreter;
 require __DIR__ . '/../httpAPI/SendMessage.php';
 require __DIR__ . '/module/QuestSearch.php';
 require __DIR__ . '/module/TextTrainslate.php';
+require __DIR__ . '/module/Helper.php';
 require __DIR__ . '/../databaseManager/mysql.php';
 require __DIR__ . '/../databaseManager/postgresql.php';
 
 use Kaiheila\databaseManager\mysql;
 use Kaiheila\databaseManager\postgresql;
 use Kaiheila\httpAPI\SendMessage;
+use KaiheilaBot\commandInterpreter\module\Helper;
 use KaiheilaBot\commandInterpreter\module\QuestSearch;
 use KaiheilaBot\commandInterpreter\module\TextTrainslate;
 
@@ -36,6 +38,8 @@ class TaskProcessor
     private $QuestSearch;
     //文本翻译指令对象
     private $TextTrainslate;
+    //指令帮助对象
+    private $Healper;
 
     /*
      * 构造函数
@@ -52,6 +56,7 @@ class TaskProcessor
         $this->httpAPI = $httpAPI;
         $this->QuestSearch = new QuestSearch($this->db, $XIVAPIKey);
         $this->TextTrainslate = new TextTrainslate($this->db, $XIVAPIKey);
+        $this->Healper = new Helper($this->db, $XIVAPIKey);
         $this->status = array(
             'start' => date('c'),
             'commandCount' => 0,
@@ -146,9 +151,12 @@ class TaskProcessor
                 ++$this->status['correctCount'];
                 break;
             case '翻译':
-                //Code here 4
                 ++$this->status['correctCount'];
                 $data = $this->TextTrainslate->run($this->commandList, $this->messageInfo);
+                break;
+            case '帮助':
+                ++$this->status['correctCount'];
+                $data = $this->Healper->run($this->commandList, $this->messageInfo);
                 break;
             default:
                 $msg = '错误指令';
