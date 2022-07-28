@@ -54,9 +54,9 @@ class TaskProcessor
             $this->db = new mysql($dbSetting[1]);
         }
         $this->httpAPI = $httpAPI;
-        $this->QuestSearch = new QuestSearch($this->db, $XIVAPIKey);
-        $this->TextTrainslate = new TextTrainslate($this->db, $XIVAPIKey);
-        $this->Healper = new Helper($this->db, $XIVAPIKey);
+        $this->QuestSearch = new QuestSearch($this->db);
+        $this->TextTrainslate = new TextTrainslate($this->db);
+        $this->Healper = new Helper($this->db);
         $this->status = array(
             'start' => date('c'),
             'commandCount' => 0,

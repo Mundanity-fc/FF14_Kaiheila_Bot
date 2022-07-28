@@ -10,9 +10,21 @@ use KaiheilaBot\cardMessage\Image;
 use KaiheilaBot\cardMessage\ImageText;
 use KaiheilaBot\cardMessage\MultiColumnText;
 use KaiheilaBot\cardMessage\PlainText;
+use Swlib\Saber;
 
 class QuestSearch extends CommandParser
 {
+    //XIV查询对象
+    protected $XIVAPI;
+    //XIV开发者Key,由于使用Cafemaker镜像，暂时无用
+    protected $XIVAPIKey;
+
+    public function getConfig($XIVAPIKey): void
+    {
+        $this->XIVAPI = Saber::create(['base_uri' => 'https://cafemaker.wakingsands.com']);
+        $this->XIVAPIKey = $XIVAPIKey;
+    }
+
     /*
      * 查询任务指令处理函数
      * 负责处理获取的任务查询指令，包括参数分析与数据库的查询
