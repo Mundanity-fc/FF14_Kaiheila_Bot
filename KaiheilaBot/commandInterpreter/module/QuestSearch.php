@@ -212,7 +212,7 @@ class QuestSearch extends CommandParser
                 $item6Reward = new ImageText('x' . $questArray['ItemNum6'] . ' [' . $Item6Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item6Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item6']->Icon, 'kmarkdown');
                 $rewardCard->insert($item6Reward);
             }
-            array_push($data, $rewardCard);
+            $data[] = $rewardCard;
         }
 
         //可选报酬框架
@@ -250,7 +250,7 @@ class QuestSearch extends CommandParser
                 $Option4 = new ImageText('x' . $questArray['OptionNum4'] . ' [' . $Option4Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option4Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option4']->Icon, 'kmarkdown');
                 $OptionCard->insert($Option4);
             }
-            array_push($data, $OptionCard);
+            $data[] = $OptionCard;
         }
 
         //技能报酬框架
@@ -263,7 +263,7 @@ class QuestSearch extends CommandParser
             $ActionIcon = $detail->IconHD;
             $Action = new ImageText($ActionName, 'https://cafemaker.wakingsands.com' . $ActionIcon, 'kmarkdown');
             $ActionCard->insert($Action);
-            array_push($data, $ActionCard);
+            $data[] = $ActionCard;
         }
 
         //任务目标框架
@@ -279,7 +279,7 @@ class QuestSearch extends CommandParser
                 $TodoText = new PlainText('(spl)' . $todo->Text . '(spl)', 'kmarkdown');
                 $todoCard->insert($TodoText);
             }
-            array_push($data, $todoCard);
+            $data[] = $todoCard;
         }
         return json_encode($data);
     }
@@ -334,7 +334,7 @@ class QuestSearch extends CommandParser
         $searchCondition = str_replace(array("\r", "\n", " "), "", $searchCondition);
         $data = $this->XIVAPI->get('/quest/' . $questID . $searchCondition);
         $data = json_decode($data->body);
-        $dataArray = array(
+        return array(
             'Name' => $data->Name,
             'Banner' => $data->Banner,
             'Icon' => $data->Icon,
@@ -379,7 +379,6 @@ class QuestSearch extends CommandParser
             'Catalyst2' => $data->ItemCatalyst2,
             'ActionReward' => $data->ActionReward->ID
         );
-        return $dataArray;
     }
 
 
