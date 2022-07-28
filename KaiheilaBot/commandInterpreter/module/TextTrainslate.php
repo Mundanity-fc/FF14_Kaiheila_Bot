@@ -69,6 +69,7 @@ class TextTrainslate extends CommandParser
      * */
     private function searchTranslate(): array
     {
+        $data = array();
         if ($this->args[0] === '物品') {
             $table = 'itemlist';
             $col = 'item';
@@ -124,8 +125,7 @@ class TextTrainslate extends CommandParser
                 $type = 1;
                 $data = array($msg, $target_id, $is_quote, $quote, $type);
             } else {
-                //正常检索到结果
-                //$msg = $this->processQuestInfo($this->getQuestInfo($search[1]['id']));
+                $msg = '';
                 if ($table === 'itemlist') {
                     $msg = '中：' . $search[1]['item'] . "\n英：" . $search[1]['item_en'] . "\n日：" . $search[1]['item_jp'];
                 }

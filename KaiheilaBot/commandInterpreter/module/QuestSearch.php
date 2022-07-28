@@ -41,6 +41,7 @@ class QuestSearch extends CommandParser
      * */
     private function questSearch(): array
     {
+        $data = array();
         if (count($this->commandList) !== 2) {
             $msg = '指令缺少参数，请查看指令使用帮助（/帮助 任务）';
             $target_id = $this->messageInfo['channelID'];
