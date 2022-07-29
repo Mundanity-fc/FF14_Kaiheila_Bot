@@ -19,6 +19,10 @@ class QuestSearch extends CommandParser
     //XIV开发者Key,由于使用Cafemaker镜像，暂时无用
     protected $XIVAPIKey;
 
+    /*
+     * 类属性初始化函数
+     * 负责初始化非标准类属性
+     * */
     public function getConfig($XIVAPIKey): void
     {
         $this->XIVAPI = Saber::create(['base_uri' => 'https://cafemaker.wakingsands.com']);
@@ -107,7 +111,7 @@ class QuestSearch extends CommandParser
      * */
     private function processQuestInfo($questArray): string
     {
-        //卡片总框架
+        //任务信息框架
         $infoCard = new Card();
 
         //任务标题信息框架
@@ -285,6 +289,10 @@ class QuestSearch extends CommandParser
         return json_encode($data);
     }
 
+    /*
+     * XIVAPI 查询函数
+     * 向 XIVAPI 发起 HTTP 通讯，查询任务信息
+     * */
     private function getQuestInfo($questID): array
     {
         //任务具体信息筛选
