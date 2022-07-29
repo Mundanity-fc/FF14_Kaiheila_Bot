@@ -3,7 +3,8 @@
 namespace KaiheilaBot\commandInterpreter;
 require __DIR__ . '/../httpAPI/SendMessage.php';
 require __DIR__ . '/module/QuestSearch.php';
-require __DIR__ . '/module/TextTrainslate.php';
+require __DIR__ . '/module/TextTranslate.php';
+require __DIR__ . '/module/PriceFetch.php';
 require __DIR__ . '/module/Helper.php';
 require __DIR__ . '/../databaseManager/mysql.php';
 require __DIR__ . '/../databaseManager/postgresql.php';
@@ -12,8 +13,9 @@ use Kaiheila\databaseManager\mysql;
 use Kaiheila\databaseManager\postgresql;
 use Kaiheila\httpAPI\SendMessage;
 use KaiheilaBot\commandInterpreter\module\Helper;
+use KaiheilaBot\commandInterpreter\module\PriceFetch;
 use KaiheilaBot\commandInterpreter\module\QuestSearch;
-use KaiheilaBot\commandInterpreter\module\TextTrainslate;
+use KaiheilaBot\commandInterpreter\module\TextTranslate;
 
 class TaskProcessor
 {
@@ -37,7 +39,9 @@ class TaskProcessor
     //任务检索指令对象
     private $QuestSearch;
     //文本翻译指令对象
-    private $TextTrainslate;
+    private $TextTranslate;
+    //价格查询指令对象
+    private $PriceFetch;
     //指令帮助对象
     private $Healper;
 
@@ -47,17 +51,32 @@ class TaskProcessor
      * */
     public function __construct($dbSetting, $httpAPI, $XIVAPIKey)
     {
+        //初始化数据库操作对象
         if ($dbSetting[0] === 'PostgreSQL') {
             $this->db = new postgresql($dbSetting[1]);
         }
         if ($dbSetting[0] === 'MySQL') {
             $this->db = new mysql($dbSetting[1]);
         }
+
+        //初始化开黑啦通讯对象
         $this->httpAPI = $httpAPI;
+
+        //初始化任务检索指令对象
         $this->QuestSearch = new QuestSearch($this->db);
         $this->QuestSearch->getConfig($XIVAPIKey);
-        $this->TextTrainslate = new TextTrainslate($this->db);
+
+        //初始化文本翻译指令对象
+        $this->TextTranslate = new TextTranslate($this->db);
+
+        //初始化价格查询指令对象
+        $this->PriceFetch = new PriceFetch($this->db);
+        $this->PriceFetch->getConfig($XIVAPIKey);
+
+        //初始化指令帮助对象
         $this->Healper = new Helper($this->db);
+
+        //初始化机器人状态参数
         $this->status = array(
             'start' => date('c'),
             'commandCount' => 0,
@@ -148,12 +167,12 @@ class TaskProcessor
                 ++$this->status['correctCount'];
                 break;
             case '价格':
-                //Code here 3
                 ++$this->status['correctCount'];
+                $data = $this->PriceFetch->run($this->commandList, $this->messageInfo);
                 break;
             case '翻译':
                 ++$this->status['correctCount'];
-                $data = $this->TextTrainslate->run($this->commandList, $this->messageInfo);
+                $data = $this->TextTranslate->run($this->commandList, $this->messageInfo);
                 break;
             case '帮助':
                 ++$this->status['correctCount'];
