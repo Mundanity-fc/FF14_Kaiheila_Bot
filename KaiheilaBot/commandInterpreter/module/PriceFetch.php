@@ -7,6 +7,7 @@ use KaiheilaBot\cardMessage\Divider;
 use KaiheilaBot\cardMessage\ImageText;
 use KaiheilaBot\cardMessage\MultiColumnText;
 use KaiheilaBot\cardMessage\PlainText;
+use Swlib\Http\Exception\ClientException;
 use Swlib\Saber;
 
 class PriceFetch extends CommandParser
@@ -243,27 +244,25 @@ class PriceFetch extends CommandParser
 
     private function getPrice($urlList): array
     {
-        $data = $this->UniversalisAPI->get($urlList[0]);
-        $item = $this->XIVAPI->get($urlList[1]);
-        $dataCode = $data->statusCode;
-        $itemCode = $item->statusCode;
-        if ($dataCode !== 200) {
-            $msg = '与 Universalis 通讯时出错，请检查是否填写了正确的服务器名称，或者稍后再试';
+        try {
+            $data = $this->UniversalisAPI->get($urlList[0]);
+        } catch (ClientException $e) {
+            $msg = '与 Universalis 通讯时出错，请检查是否填写了正确的服务器名称，或者稍后再试（需要全称）';
             $target_id = $this->messageInfo['channelID'];
             $is_quote = true;
             $quote = $this->messageInfo['messageID'];
             $type = 1;
-            $data = array($msg, $target_id, $is_quote, $quote, $type);
-            return array(0, $data);
+            return array($msg, $target_id, $is_quote, $quote, $type);
         }
-        if ($itemCode !== 200) {
+        try {
+            $item = $this->XIVAPI->get($urlList[1]);
+        } catch (ClientException $e) {
             $msg = '与 XIVAPI 通讯时出错，请稍后再试';
             $target_id = $this->messageInfo['channelID'];
             $is_quote = true;
             $quote = $this->messageInfo['messageID'];
             $type = 1;
-            $data = array($msg, $target_id, $is_quote, $quote, $type);
-            return array(0, $data);
+            return array($msg, $target_id, $is_quote, $quote, $type);
         }
         $data = json_decode($data->body);
         $item = json_decode($item->body);
