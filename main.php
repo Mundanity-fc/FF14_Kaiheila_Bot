@@ -8,7 +8,27 @@ use kaiheila\api\base\WebsocketSession;
 use Kaiheila\httpAPI\SendMessage;
 use KaiheilaBot\commandInterpreter\TaskProcessor;
 
-function mainWork()
+$statusServer = Swlib\Saber::create([
+    'base_uri' => 'http://bot.gekj.net',
+    'timeout' => 30,
+    'headers' => [
+        'uuid' => UUID
+    ]
+]);
+
+//向BotMarket发送机器人在线状态
+function sendStatus(): void
+{
+    global $statusServer;
+    try {
+        $result = $statusServer->post('/api/v1/online.bot');
+    } catch (\Swlib\Http\Exception\ClientException $e) {
+        echo date('[Y-m-d H:i:s]') . " 发送在线状态失败，请注意！\n";
+    }
+    echo date('[Y-m-d H:i:s]') . " 成功向服务器发送在线状态\n";
+}
+
+function mainWork(): void
 {
     $loop = false;
 
@@ -30,7 +50,7 @@ function mainWork()
     $session = new WebsocketSession(TOKEN, BASE_URL, __DIR__ . '/session.pid');
 
     //修改 log 文件位置 （BaseObject内容）
-    $session->logFile = __DIR__ . '/FF14BotMsg.log';
+    //$session->logFile = __DIR__ . '/FF14BotMsg.log';
 
     // Websocket 消息监听
     $session->on('GROUP*', function ($frame) use ($session, $processor) {
@@ -53,5 +73,7 @@ function mainWork()
 }
 
 \Co\run(function () {
+    sendStatus();
+    $timer = swoole_timer_tick(1800000, 'sendStatus');
     mainWork();
 });

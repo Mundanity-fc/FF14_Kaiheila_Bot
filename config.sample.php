@@ -10,7 +10,11 @@ const TOKEN = '';
 
 // HTTP Request Base URL (No need to change)
 // 开黑啦 HTTP 请求的基本 URL（默认无需更改）
-const BASE_URL = "https://www.kaiheila.cn";
+const BASE_URL = 'https://www.kaiheila.cn';
+
+// BotMarket Status UUID
+// BotMarket 机器人状态 API 的 UUID
+const UUID = '';
 
 /*
  * DataBase Setting
