@@ -50,22 +50,29 @@ function mainWork(): void
     $session = new WebsocketSession(TOKEN, BASE_URL, __DIR__ . '/session.pid');
 
     //修改 log 文件位置 （BaseObject内容）
-    //$session->logFile = __DIR__ . '/FF14BotMsg.log';
+    $session->logFile = __DIR__ . '/FF14BotMsg.log';
 
     // Websocket 消息监听
     $session->on('GROUP*', function ($frame) use ($session, $processor) {
         $session->log('receiveGroup', '收到频道消息');
         $messageData = $frame->d['content'];
-        $messageInfo = array(
-            'channelID' => $frame->d['target_id'],
-            'messageID' => $frame->d['msg_id'],
-            'senderID' => $frame->d['author_id'],
-            'serverID' => $frame->d['extra']['guild_id'],
-            'channelName' => $frame->d['extra']['channel_name'],
-            'senderName' => $frame->d['extra']['author']['username']
-        );
-        if (str_starts_with($messageData, '/')) {
-            $processor->run($messageData, $messageInfo);
+
+        //预留，未来可能做私聊消息
+        $type = $frame->d['channel_type'];
+
+        //非系统消息提醒（用户在频道内加入语音等会产生系统消息）
+        if ($frame->d['author_id'] !== '1') {
+            $messageInfo = array(
+                'channelID' => $frame->d['target_id'],
+                'messageID' => $frame->d['msg_id'],
+                'senderID' => $frame->d['author_id'],
+                'serverID' => $frame->d['extra']['guild_id'],
+                'channelName' => $frame->d['extra']['channel_name'],
+                'senderName' => $frame->d['extra']['author']['username']
+            );
+            if (str_starts_with($messageData, '/')) {
+                $processor->run($messageData, $messageInfo);
+            }
         }
     });
 
