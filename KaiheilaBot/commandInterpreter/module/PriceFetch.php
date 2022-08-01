@@ -7,7 +7,6 @@ use KaiheilaBot\cardMessage\Divider;
 use KaiheilaBot\cardMessage\ImageText;
 use KaiheilaBot\cardMessage\MultiColumnText;
 use KaiheilaBot\cardMessage\PlainText;
-use Swlib\Http\Exception\ClientException;
 use Swlib\Saber;
 
 class PriceFetch extends CommandParser
@@ -246,24 +245,54 @@ class PriceFetch extends CommandParser
     {
         try {
             $data = $this->UniversalisAPI->get($urlList[0]);
-        } catch (ClientException $e) {
+        } catch (\Swlib\Http\Exception\ClientException $e) {
             $msg = '与 Universalis 通讯时出错，请检查是否填写了正确的服务器名称，或者稍后再试（需要全称）';
             $target_id = $this->messageInfo['channelID'];
             $is_quote = true;
             $quote = $this->messageInfo['messageID'];
             $type = 1;
             return array($msg, $target_id, $is_quote, $quote, $type);
-        }
-        try {
-            $item = $this->XIVAPI->get($urlList[1]);
-        } catch (ClientException $e) {
-            $msg = '与 XIVAPI 通讯时出错，请稍后再试';
+        } catch (\Swlib\Http\Exception\ConnectException $e) {
+            $msg = '无法与服务器建立连接，请重试';
+            $target_id = $this->messageInfo['channelID'];
+            $is_quote = true;
+            $quote = $this->messageInfo['messageID'];
+            $type = 1;
+            return array($msg, $target_id, $is_quote, $quote, $type);
+        } catch (\Swlib\Http\Exception\ServerException $e) {
+            $msg = 'Universalis 服务器出错，返回了 50X 状态码';
             $target_id = $this->messageInfo['channelID'];
             $is_quote = true;
             $quote = $this->messageInfo['messageID'];
             $type = 1;
             return array($msg, $target_id, $is_quote, $quote, $type);
         }
+
+        try {
+            $item = $this->XIVAPI->get($urlList[1]);
+        } catch (\Swlib\Http\Exception\ClientException $e) {
+            $msg = '与 XIVAPI 通讯时出错，请稍后再试（40X）';
+            $target_id = $this->messageInfo['channelID'];
+            $is_quote = true;
+            $quote = $this->messageInfo['messageID'];
+            $type = 1;
+            return array($msg, $target_id, $is_quote, $quote, $type);
+        } catch (\Swlib\Http\Exception\ConnectException $e) {
+            $msg = '无法与服务器建立连接，请重试（由于并非与 XIVAPI 直接通讯，而是与 FFCafe 的 API 建立连接，或者是达到每分钟访问限制）';
+            $target_id = $this->messageInfo['channelID'];
+            $is_quote = true;
+            $quote = $this->messageInfo['messageID'];
+            $type = 1;
+            return array($msg, $target_id, $is_quote, $quote, $type);
+        } catch (\Swlib\Http\Exception\ServerException $e) {
+            $msg = 'FFCafe 服务器出错，返回了 50X 状态码';
+            $target_id = $this->messageInfo['channelID'];
+            $is_quote = true;
+            $quote = $this->messageInfo['messageID'];
+            $type = 1;
+            return array($msg, $target_id, $is_quote, $quote, $type);
+        }
+
         $data = json_decode($data->body);
         $item = json_decode($item->body);
 
