@@ -70,11 +70,13 @@ class TextTranslate extends CommandParser
     private function searchTranslate(): array
     {
         $data = array();
+        $target_id = $this->messageInfo['channelID'];
+        $is_quote = true;
+        $quote = $this->messageInfo['messageID'];
+        $type = 1;
         if ($this->args[0] === '物品') {
-            $table = 'itemlist';
             $col = 'item';
         } elseif ($this->args[0] === '任务') {
-            $table = 'questlist';
             $col = 'quest';
         } else {
             $msg = '参数1错误，请查询指令使用方式（/帮助 翻译）';
@@ -85,60 +87,52 @@ class TextTranslate extends CommandParser
             return array($msg, $target_id, $is_quote, $quote, $type);
         }
 
-        //检索中文列表
-        $search = $this->db->search('*', $table, $table . '.' . $col, $this->args[1], '=');
-
-        //查询中文列表返回结果为空时，检索英文列表
-        if ($search[0] === 1) {
-            if (!$search[1]) {
-                $colEN = $col . '_en';
-                $search = $this->db->search('*', $table, $table . '.' . $colEN, $this->args[1], '=');
-            }
-        }
-
-        //查询英文列表返回结果为空时，检索日文列表
-        if ($search[0] === 1) {
-            if (!$search[1]) {
-                $colJP = $col . '_jp';
-                $search = $this->db->search('*', $table, $table . '.' . $colJP, $this->args[1], '=');
-            }
-        }
-
-        //无法执行 sql 语句时
-        if ($search[0] === 0) {
-            $msg = '查询出错，请检查 sql 语句或数据库状态！（联系开发者或机器人所有者）';
-            $target_id = $this->messageInfo['channelID'];
-            $is_quote = true;
-            $quote = $this->messageInfo['messageID'];
-            $type = 1;
-            $data = array($msg, $target_id, $is_quote, $quote, $type);
-        }
-
-        //三次全部查完
-        if ($search[0] === 1) {
-            //最终结果为空时
-            if (!$search[1]) {
-                $msg = '没有结果，请检查参数2是否输入正确！（英文文本区分大小写）';
-                $target_id = $this->messageInfo['channelID'];
-                $is_quote = true;
-                $quote = $this->messageInfo['messageID'];
-                $type = 1;
-                $data = array($msg, $target_id, $is_quote, $quote, $type);
-            } else {
-                $msg = '';
-                if ($table === 'itemlist') {
-                    $msg = '中：' . $search[1]['item'] . "\n英：" . $search[1]['item_en'] . "\n日：" . $search[1]['item_jp'];
+        switch ($col) {
+            case 'item':
+                $id = $this->db->getItemID($this->args[1]);
+                if ($id[0] === 0) {
+                    $msg = $id[1];
+                    return array($msg, $target_id, $is_quote, $quote, $type);
                 }
-                if ($table === 'questlist') {
-                    $msg = '中：' . $search[1]['quest'] . "\n英：" . $search[1]['quest_en'] . "\n日：" . $search[1]['quest_jp'];
+                if ($id[1] === 0) {
+                    $msg = '没有结果，请检查参数2是否输入正确！（英文文本区分大小写）';
+                    return array($msg, $target_id, $is_quote, $quote, $type);
                 }
-                $target_id = $this->messageInfo['channelID'];
-                $is_quote = true;
-                $quote = $this->messageInfo['messageID'];
-                $type = 1;
-                $data = array($msg, $target_id, $is_quote, $quote, $type);
-            }
+                $name = $this->db->getItemName($id[1]);
+                if ($name[0] === 0) {
+                    $msg = $name[1];
+                    return array($msg, $target_id, $is_quote, $quote, $type);
+                }
+                if ($name[1] === 0) {
+                    $msg = '没有结果，请检查参数2是否输入正确！（英文文本区分大小写）';
+                    return array($msg, $target_id, $is_quote, $quote, $type);
+                }
+                $msg = '中：' . $name[1][0] . "\n英：" . $name[1][1] . "\n日：" . $name[1][2];
+                return array($msg, $target_id, $is_quote, $quote, $type);
+            case 'quest':
+                $id = $this->db->getQuestID($this->args[1]);
+                if ($id[0] === 0) {
+                    $msg = $id[1];
+                    return array($msg, $target_id, $is_quote, $quote, $type);
+                }
+                if ($id[1] === 0) {
+                    $msg = '没有结果，请检查参数2是否输入正确！（英文文本区分大小写）';
+                    return array($msg, $target_id, $is_quote, $quote, $type);
+                }
+                $name = $this->db->getQuestName($id[1]);
+                if ($name[0] === 0) {
+                    $msg = $name[1];
+                    return array($msg, $target_id, $is_quote, $quote, $type);
+                }
+                if ($name[1] === 0) {
+                    $msg = '没有结果，请检查参数2是否输入正确！（英文文本区分大小写）';
+                    return array($msg, $target_id, $is_quote, $quote, $type);
+                }
+                $msg = '中：' . $name[1][0] . "\n英：" . $name[1][1] . "\n日：" . $name[1][2];
+                return array($msg, $target_id, $is_quote, $quote, $type);
         }
-        return $data;
+
+        $msg = '意料外的情况，请联系开发者，并反馈错误代码：TTE01';
+        return array($msg, $target_id, $is_quote, $quote, $type);
     }
 }
