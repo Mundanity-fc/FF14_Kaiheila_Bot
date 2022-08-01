@@ -54,24 +54,9 @@ class QuestSearch extends CommandParser
             $type = 1;
             $data = array($msg, $target_id, $is_quote, $quote, $type);
         } else {
-            //检索中文列表
-            $search = $this->db->search('questlist.id', 'questlist', 'questlist.quest', $this->commandList[1], '=');
+            $search = $this->db->getQuestID($this->commandList[1]);
 
-            //查询中文列表返回结果为空时，检索英文列表
-            if ($search[0] === 1) {
-                if (!$search[1]) {
-                    $search = $this->db->search('questlist.id', 'questlist', 'questlist.quest_en', $this->commandList[1], '=');
-                }
-            }
-
-            //查询英文列表返回结果为空时，检索日文列表
-            if ($search[0] === 1) {
-                if (!$search[1]) {
-                    $search = $this->db->search('questlist.id', 'questlist', 'questlist.quest_jp', $this->commandList[1], '=');
-                }
-            }
-
-            //无法执行 sql 语句时
+            //数据库查询失败
             if ($search[0] === 0) {
                 $msg = '查询出错，请检查 sql 语句或数据库状态！（联系开发者或机器人所有者）';
                 $target_id = $this->messageInfo['channelID'];
@@ -81,19 +66,33 @@ class QuestSearch extends CommandParser
                 $data = array($msg, $target_id, $is_quote, $quote, $type);
             }
 
-            //三次全部查完
+            //查询成功
             if ($search[0] === 1) {
-                //最终结果为空时
-                if (!$search[1]) {
+                //无结果
+                if ($search[1] === 0) {
                     $msg = '没有结果，请确保输入的任务名正确！（英文文本区分大小写）';
                     $target_id = $this->messageInfo['channelID'];
                     $is_quote = true;
                     $quote = $this->messageInfo['messageID'];
                     $type = 1;
                     $data = array($msg, $target_id, $is_quote, $quote, $type);
-                } else {
-                    //正常检索到结果
-                    $msg = $this->processQuestInfo($this->getQuestInfo($search[1]['id']));
+                } //有结果
+                else {
+                    //发送 API 请求
+                    $api = $this->getQuestInfo($search[1]);
+
+                    //出现错误状态码时
+                    if ($api[0] === 0) {
+                        $msg = $api[1];
+                        $target_id = $this->messageInfo['channelID'];
+                        $is_quote = true;
+                        $quote = $this->messageInfo['messageID'];
+                        $type = 1;
+                        return array($msg, $target_id, $is_quote, $quote, $type);
+                    }
+
+                    //正常返回 200 状态码时
+                    $msg = $this->processQuestInfo($api[1]);
                     $target_id = $this->messageInfo['channelID'];
                     $is_quote = true;
                     $quote = $this->messageInfo['messageID'];
@@ -158,62 +157,53 @@ class QuestSearch extends CommandParser
                 $rewardCard->insert($expReward);
             }
             if ($questArray['CatalystNum0']) {
-                $Catalyst0Name = $this->XIVAPI->get('/item/' . $questArray['Catalyst0']->ID . '?columns=Name');
-                $Catalyst0Name = json_decode($Catalyst0Name->body)->Name;
+                $Catalyst0Name = $this->db->getItemName($questArray['Catalyst0']->ID)[1][0];
                 $Catalyst0Reward = new ImageText('x' . $questArray['CatalystNum0'] . ' [' . $Catalyst0Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst0Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Catalyst0']->Icon, 'kmarkdown');
                 $rewardCard->insert($Catalyst0Reward);
             }
             if ($questArray['CatalystNum1']) {
-                $Catalyst1Name = $this->XIVAPI->get('/item/' . $questArray['Catalyst1']->ID . '?columns=Name');
-                $Catalyst1Name = json_decode($Catalyst1Name->body)->Name;
+                $Catalyst1Name = $this->db->getItemName($questArray['Catalyst1']->ID)[1][0];
                 $Catalyst1Reward = new ImageText('x' . $questArray['CatalystNum1'] . ' [' . $Catalyst1Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst1Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Catalyst1']->Icon, 'kmarkdown');
                 $rewardCard->insert($Catalyst1Reward);
             }
             if ($questArray['CatalystNum2']) {
-                $Catalyst2Name = $this->XIVAPI->get('/item/' . $questArray['Catalyst2']->ID . '?columns=Name');
-                $Catalyst2Name = json_decode($Catalyst2Name->body)->Name;
+                $Catalyst2Name = $this->db->getItemName($questArray['Catalyst2']->ID)[1][0];
                 $Catalyst2Reward = new ImageText('x' . $questArray['CatalystNum2'] . ' [' . $Catalyst2Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst2Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Catalyst2']->Icon, 'kmarkdown');
                 $rewardCard->insert($Catalyst2Reward);
             }
             if ($questArray['ItemNum0']) {
-                $Item0Name = $this->XIVAPI->get('/item/' . $questArray['Item0']->ID . '?columns=Name');
-                $Item0Name = json_decode($Item0Name->body)->Name;
+
+                $Item0Name = $this->db->getItemName($questArray['Item0']->ID)[1][0];
                 $item0Reward = new ImageText('x' . $questArray['ItemNum0'] . ' [' . $Item0Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item0Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item0']->Icon, 'kmarkdown');
                 $rewardCard->insert($item0Reward);
             }
             if ($questArray['ItemNum1']) {
-                $Item1Name = $this->XIVAPI->get('/item/' . $questArray['Item1']->ID . '?columns=Name');
-                $Item1Name = json_decode($Item1Name->body)->Name;
+                $Item1Name = $this->db->getItemName($questArray['Item1']->ID)[1][0];
                 $item1Reward = new ImageText('x' . $questArray['ItemNum1'] . ' [' . $Item1Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item1Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item1']->Icon, 'kmarkdown');
                 $rewardCard->insert($item1Reward);
             }
             if ($questArray['ItemNum2']) {
-                $Item2Name = $this->XIVAPI->get('/item/' . $questArray['Item2']->ID . '?columns=Name');
-                $Item2Name = json_decode($Item2Name->body)->Name;
+                $Item2Name = $this->db->getItemName($questArray['Item2']->ID)[1][0];
                 $item2Reward = new ImageText('x' . $questArray['ItemNum2'] . ' [' . $Item2Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item2Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item2']->Icon, 'kmarkdown');
                 $rewardCard->insert($item2Reward);
             }
             if ($questArray['ItemNum3']) {
-                $Item3Name = $this->XIVAPI->get('/item/' . $questArray['Item3']->ID . '?columns=Name');
-                $Item3Name = json_decode($Item3Name->body)->Name;
+                $Item3Name = $this->db->getItemName($questArray['Item3']->ID)[1][0];
                 $item3Reward = new ImageText('x' . $questArray['ItemNum3'] . ' [' . $Item3Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item3Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item3']->Icon, 'kmarkdown');
                 $rewardCard->insert($item3Reward);
             }
             if ($questArray['ItemNum4']) {
-                $Item4Name = $this->XIVAPI->get('/item/' . $questArray['Item4']->ID . '?columns=Name');
-                $Item4Name = json_decode($Item4Name->body)->Name;
+                $Item4Name = $this->db->getItemName($questArray['Item4']->ID)[1][0];
                 $item4Reward = new ImageText('x' . $questArray['ItemNum4'] . ' [' . $Item4Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item4Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item4']->Icon, 'kmarkdown');
                 $rewardCard->insert($item4Reward);
             }
             if ($questArray['ItemNum5']) {
-                $Item5Name = $this->XIVAPI->get('/item/' . $questArray['Item5']->ID . '?columns=Name');
-                $Item5Name = json_decode($Item5Name->body)->Name;
+                $Item5Name = $this->db->getItemName($questArray['Item5']->ID)[1][0];
                 $item5Reward = new ImageText('x' . $questArray['ItemNum5'] . ' [' . $Item5Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item5Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item5']->Icon, 'kmarkdown');
                 $rewardCard->insert($item5Reward);
             }
             if ($questArray['ItemNum6']) {
-                $Item6Name = $this->XIVAPI->get('/item/' . $questArray['Item6']->ID . '?columns=Name');
-                $Item6Name = json_decode($Item6Name->body)->Name;
+                $Item6Name = $this->db->getItemName($questArray['Item6']->ID)[1][0];
                 $item6Reward = new ImageText('x' . $questArray['ItemNum6'] . ' [' . $Item6Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item6Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item6']->Icon, 'kmarkdown');
                 $rewardCard->insert($item6Reward);
             }
@@ -226,32 +216,27 @@ class QuestSearch extends CommandParser
             $OptionTitle = new PlainText('可选报酬', 'plain-text', 'header');
             $OptionCard->insert($OptionTitle);
             if ($questArray['OptionNum0']) {
-                $Option0Name = $this->XIVAPI->get('/item/' . $questArray['Option0']->ID . '?columns=Name');
-                $Option0Name = json_decode($Option0Name->body)->Name;
+                $Option0Name = $this->db->getItemName($questArray['Option0']->ID)[1][0];
                 $Option0 = new ImageText('x' . $questArray['OptionNum0'] . ' [' . $Option0Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option0Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option0']->Icon, 'kmarkdown');
                 $OptionCard->insert($Option0);
             }
             if ($questArray['OptionNum1']) {
-                $Option1Name = $this->XIVAPI->get('/item/' . $questArray['Option1']->ID . '?columns=Name');
-                $Option1Name = json_decode($Option1Name->body)->Name;
+                $Option1Name = $this->db->getItemName($questArray['Option1']->ID)[1][0];
                 $Option1 = new ImageText('x' . $questArray['OptionNum1'] . ' [' . $Option1Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option1Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option1']->Icon, 'kmarkdown');
                 $OptionCard->insert($Option1);
             }
             if ($questArray['OptionNum2']) {
-                $Option2Name = $this->XIVAPI->get('/item/' . $questArray['Option2']->ID . '?columns=Name');
-                $Option2Name = json_decode($Option2Name->body)->Name;
+                $Option2Name = $this->db->getItemName($questArray['Option2']->ID)[1][0];
                 $Option2 = new ImageText('x' . $questArray['OptionNum2'] . ' [' . $Option2Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option2Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option2']->Icon, 'kmarkdown');
                 $OptionCard->insert($Option2);
             }
             if ($questArray['OptionNum3']) {
-                $Option3Name = $this->XIVAPI->get('/item/' . $questArray['Option3']->ID . '?columns=Name');
-                $Option3Name = json_decode($Option3Name->body)->Name;
+                $Option3Name = $this->db->getItemName($questArray['Option3']->ID)[1][0];
                 $Option3 = new ImageText('x' . $questArray['OptionNum3'] . ' [' . $Option3Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option3Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option3']->Icon, 'kmarkdown');
                 $OptionCard->insert($Option3);
             }
             if ($questArray['OptionNum4']) {
-                $Option4Name = $this->XIVAPI->get('/item/' . $questArray['Option4']->ID . '?columns=Name');
-                $Option4Name = json_decode($Option4Name->body)->Name;
+                $Option4Name = $this->db->getItemName($questArray['Option4']->ID)[1][0];
                 $Option4 = new ImageText('x' . $questArray['OptionNum4'] . ' [' . $Option4Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option4Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option4']->Icon, 'kmarkdown');
                 $OptionCard->insert($Option4);
             }
@@ -341,9 +326,23 @@ class QuestSearch extends CommandParser
         ActionReward.ID";
         //字符串格式化
         $searchCondition = str_replace(array("\r", "\n", " "), "", $searchCondition);
-        $data = $this->XIVAPI->get('/quest/' . $questID . $searchCondition);
+
+        //发送 Get 请求
+        try {
+            $data = $this->XIVAPI->get('/quest/' . $questID . $searchCondition);
+        } catch (\Swlib\Http\Exception\ClientException $e) {
+            $data = '错误的 URL 地址，请检查访问连接';
+            return array(0, $data);
+        } catch (\Swlib\Http\Exception\ConnectException $e) {
+            $data = '无法与服务器建立连接，请重试（由于并非与 XIVAPI 直接通讯，而是与 FFCafe 的 API 建立连接，或者是达到每分钟访问限制）';
+            return array(0, $data);
+        } catch (\Swlib\Http\Exception\ServerException $e) {
+            $data = 'FFCafe 服务器出错，返回了 50X 状态码';
+            return array(0, $data);
+        }
+
         $data = json_decode($data->body);
-        return array(
+        return array(1, array(
             'Name' => $data->Name,
             'Banner' => $data->Banner,
             'Icon' => $data->Icon,
@@ -387,7 +386,7 @@ class QuestSearch extends CommandParser
             'Catalyst1' => $data->ItemCatalyst1,
             'Catalyst2' => $data->ItemCatalyst2,
             'ActionReward' => $data->ActionReward->ID
-        );
+        ));
     }
 
 
