@@ -27,6 +27,7 @@ Todo：
 - [ ] 完成道具搜索功能
 - [ ] 稳定性测试（基于 PHP 脚本的 Swoole 协程稳定性未知，且测试阶段出现过 Websocket 产生 pingpong 但是无法接收到频道消息的情况，未来会与 Webhook 进行对比测试）
 - [ ] 大流量测试
+- [ ] HTTP Timeout 复写（Saber 建立的链接当出现超时错误后会直接停止脚本运行，由于 Systemd 中 Restart=on-failure 字段的存在，因而脚本会自动重启，但在用户处没有感知）
 
 ---
 
