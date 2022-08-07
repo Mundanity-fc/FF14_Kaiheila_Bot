@@ -23,13 +23,13 @@ function sendStatus(): void
     try {
         $result = $statusServer->post('/api/v1/online.bot');
     } catch (\Swlib\Http\Exception\ClientException $e) {
-        echo date('[Y-m-d H:i:s]') . " 错误URL访问，请确认链接是否正确\n";
+        echo date('[Y-m-d H:i:s]') . " [ERROR] 错误URL访问，请确认链接是否正确\n";
     } catch (\Swlib\Http\Exception\ConnectException $e) {
-        echo date('[Y-m-d H:i:s]') . " 无法与服务器取得响应\n";
+        echo date('[Y-m-d H:i:s]') . " [ERROR] 无法与服务器取得响应\n";
     } catch (\Swlib\Http\Exception\ServerException $e) {
-        echo date('[Y-m-d H:i:s]') . " 目标服务器无响应\n";
+        echo date('[Y-m-d H:i:s]') . " [ERROR] 目标服务器无响应\n";
     }
-    echo date('[Y-m-d H:i:s]') . " 成功向服务器发送在线状态\n";
+    echo date('[Y-m-d H:i:s]') . " [SUCCESS] 成功向服务器发送在线状态\n";
 }
 
 function mainWork(): void
