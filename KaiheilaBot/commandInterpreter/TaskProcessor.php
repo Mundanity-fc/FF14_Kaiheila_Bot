@@ -174,6 +174,14 @@ class TaskProcessor
                 ++$this->status['correctCount'];
                 $data = $this->TextTranslate->run($this->commandList, $this->messageInfo);
                 break;
+            case '时尚':
+                $msg = 'https://docs.qq.com/sheet/DY2lCeEpwemZESm5q?tab=dewveu';
+                $target_id = $this->messageInfo['channelID'];
+                $is_quote = true;
+                $quote = $this->messageInfo['messageID'];
+                $type = 1;
+                $data = array($msg, $target_id, $is_quote, $quote, $type);
+                break;
             case '帮助':
                 ++$this->status['correctCount'];
                 $data = $this->Healper->run($this->commandList, $this->messageInfo);
