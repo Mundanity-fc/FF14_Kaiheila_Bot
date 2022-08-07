@@ -171,4 +171,67 @@ class postgresql
         }
         return array($result, $data);
     }
+
+    //搜索指定技能名的 ID
+    public function getActionID($quest): array
+    {
+        $data = '数据库出错或 SQL 语句出错，请联系开发者';
+        $result = 0;
+        //检索中文列表
+        $search = $this->search('actionlist.id', 'actionlist', 'actionlist.action', $quest, '=');
+
+        //查询中文列表返回结果为空时，检索英文列表
+        if (($search[0] === 1) && !$search[1]) {
+            $search = $this->search('actionlist.id', 'actionlist', 'actionlist.action_en', $quest, '=');
+        }
+
+        //查询英文列表返回结果为空时，检索日文列表
+        if (($search[0] === 1) && !$search[1]) {
+            $search = $this->search('actionlist.id', 'actionlist', 'actionlist.action_jp', $quest, '=');
+        }
+
+        //无法执行 sql 语句时
+        if ($search[0] === 0) {
+            return array($result, $data);
+        }
+
+        //三次全部查完
+        if ($search[0] === 1) {
+            $result = 1;
+            //最终结果为空时
+            if (!$search[1]) {
+                $data = 0;
+            } else {
+                //正常检索到结果
+                $data = $search[1]['id'];
+            }
+        }
+        return array($result, $data);
+    }
+
+    //搜索指定 ID 的技能名（返回中/英/日）
+    public function getActionName($id)
+    {
+        $data = '数据库出错或 SQL 语句出错，请联系开发者';
+        $result = 0;
+        $search = $this->search('*', 'actionlist', 'actionlist.id', $id, '=');
+
+        //无法执行 sql 语句时
+        if ($search[0] === 0) {
+            return array($result, $data);
+        }
+
+        //正常执行结束后
+        if ($search[0] === 1) {
+            $result = 1;
+            //无结果时
+            if (!$search[1]) {
+                $data = 0;
+            } else {
+                //正常检索到结果
+                $data = array($search[1]['action'], $search[1]['action_en'], $search[1]['action_jp']);
+            }
+        }
+        return array($result, $data);
+    }
 }
