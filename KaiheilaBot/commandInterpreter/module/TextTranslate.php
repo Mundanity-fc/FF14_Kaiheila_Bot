@@ -74,17 +74,23 @@ class TextTranslate extends CommandParser
         $is_quote = true;
         $quote = $this->messageInfo['messageID'];
         $type = 1;
-        if ($this->args[0] === '物品') {
-            $col = 'item';
-        } elseif ($this->args[0] === '任务') {
-            $col = 'quest';
-        } else {
-            $msg = '参数1错误，请查询指令使用方式（/帮助 翻译）';
-            $target_id = $this->messageInfo['channelID'];
-            $is_quote = true;
-            $quote = $this->messageInfo['messageID'];
-            $type = 1;
-            return array($msg, $target_id, $is_quote, $quote, $type);
+        switch ($this->args[0]) {
+            case '物品':
+                $col = 'item';
+                break;
+            case '任务':
+                $col = 'quest';
+                break;
+            case '技能':
+                $col = 'action';
+                break;
+            default:
+                $msg = '参数1错误，请查询指令使用方式（/帮助 翻译）';
+                $target_id = $this->messageInfo['channelID'];
+                $is_quote = true;
+                $quote = $this->messageInfo['messageID'];
+                $type = 1;
+                return array($msg, $target_id, $is_quote, $quote, $type);
         }
 
         switch ($col) {
@@ -120,6 +126,27 @@ class TextTranslate extends CommandParser
                     return array($msg, $target_id, $is_quote, $quote, $type);
                 }
                 $name = $this->db->getQuestName($id[1]);
+                if ($name[0] === 0) {
+                    $msg = $name[1];
+                    return array($msg, $target_id, $is_quote, $quote, $type);
+                }
+                if ($name[1] === 0) {
+                    $msg = '没有结果，请检查参数2是否输入正确！（英文文本区分大小写）';
+                    return array($msg, $target_id, $is_quote, $quote, $type);
+                }
+                $msg = '中：' . $name[1][0] . "\n英：" . $name[1][1] . "\n日：" . $name[1][2];
+                return array($msg, $target_id, $is_quote, $quote, $type);
+            case 'action':
+                $id = $this->db->getActionID($this->args[1]);
+                if ($id[0] === 0) {
+                    $msg = $id[1];
+                    return array($msg, $target_id, $is_quote, $quote, $type);
+                }
+                if ($id[1] === 0) {
+                    $msg = '没有结果，请检查参数2是否输入正确！（英文文本区分大小写）';
+                    return array($msg, $target_id, $is_quote, $quote, $type);
+                }
+                $name = $this->db->getActionName($id[1]);
                 if ($name[0] === 0) {
                     $msg = $name[1];
                     return array($msg, $target_id, $is_quote, $quote, $type);
