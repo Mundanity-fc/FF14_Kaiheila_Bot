@@ -148,7 +148,7 @@ class PriceFetch extends CommandParser
 
         //当查询类型为空时，默认查询当前出售价格和出售记录（买模式+卖模式）
         if (empty($this->args['type'])) {
-            $itemURL = '/item/' . $id . '?columns=Icon,Name';
+            $itemURL = '/item/' . $id . '?columns=Icon,Name&private_key=' . $this->XIVAPIKey;
             $dataURL = '/api/v2/' . $this->args['region'][0] . '/' . $id . '?';
             //查询时长
             if (!empty($this->args['time'])) {
@@ -176,7 +176,7 @@ class PriceFetch extends CommandParser
 
         //买模式查询（查询指定时间范围内的出售价格）
         if ($this->args['type'][0] === '买' || $this->args['type'][0] === 'B' || $this->args['type'][0] === 'b') {
-            $itemURL = '/item/' . $id . '?columns=Icon,Name';
+            $itemURL = '/item/' . $id . '?columns=Icon,Name&private_key=' . $this->XIVAPIKey;;
             $dataURL = '/api/v2/' . $this->args['region'][0] . '/' . $id . '?';
             $dataURL .= 'entries=0&';
             //查询时长
@@ -202,7 +202,7 @@ class PriceFetch extends CommandParser
 
         //卖模式查询（查询指定时间范围内的出售记录）
         if ($this->args['type'][0] === '卖' || $this->args['type'][0] === 'S' || $this->args['type'][0] === 's') {
-            $itemURL = '/item/' . $id . '?columns=Icon,Name';
+            $itemURL = '/item/' . $id . '?columns=Icon,Name&private_key=' . $this->XIVAPIKey;;
             $dataURL = '/api/v2/' . $this->args['region'][0] . '/' . $id . '?';
             $dataURL .= 'listings=0&';
             //查询时长

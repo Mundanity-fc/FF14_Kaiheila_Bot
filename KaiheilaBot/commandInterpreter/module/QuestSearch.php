@@ -248,9 +248,8 @@ class QuestSearch extends CommandParser
             $ActionCard = new Card();
             $ActionTitle = new PlainText('技能习得', 'plain-text', 'header');
             $ActionCard->insert($ActionTitle);
-            $detail = json_decode($this->XIVAPI->get('/action/' . $questArray['ActionReward'] . '?columns=Name,IconHD')->body);
-            $ActionName = $detail->Name;
-            $ActionIcon = $detail->IconHD;
+            $ActionName = $this->db->getActionName($questArray['ActionReward']->ID)[1][0];
+            $ActionIcon = $questArray['ActionReward']->IconHD;
             $Action = new ImageText($ActionName, 'https://cafemaker.wakingsands.com' . $ActionIcon, 'kmarkdown');
             $ActionCard->insert($Action);
             $data[] = $ActionCard;
@@ -323,9 +322,11 @@ class QuestSearch extends CommandParser
         ClassJobCategory0.Name,
         JournalGenre.JournalCategory.Name,
         JournalGenre.Name,
-        ActionReward.ID";
+        ActionReward.ID,
+        ActionReward.IconHD";
         //字符串格式化
         $searchCondition = str_replace(array("\r", "\n", " "), "", $searchCondition);
+        $searchCondition .= '&private_key=' . $this->XIVAPIKey;
 
         //发送 Get 请求
         try {
@@ -385,7 +386,7 @@ class QuestSearch extends CommandParser
             'Catalyst0' => $data->ItemCatalyst0,
             'Catalyst1' => $data->ItemCatalyst1,
             'Catalyst2' => $data->ItemCatalyst2,
-            'ActionReward' => $data->ActionReward->ID
+            'ActionReward' => $data->ActionReward
         ));
     }
 
