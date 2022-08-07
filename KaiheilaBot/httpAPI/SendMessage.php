@@ -36,6 +36,10 @@ class SendMessage
                 'content' => $content
             );
         }
-        $this->httpConn->post('/api/v3/message/create', json_encode($reply));
+        try {
+            $this->httpConn->post('/api/v3/message/create', json_encode($reply));
+        } catch (\Swlib\Http\Exception\ClientException $e) {
+            echo date('[Y-m-d H:i:s]') . " [ERROR] 发送开黑啦消息超时\n";
+        }
     }
 }
