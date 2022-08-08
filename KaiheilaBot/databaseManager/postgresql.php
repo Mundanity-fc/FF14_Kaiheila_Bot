@@ -12,7 +12,7 @@ class postgresql
     }
 
     //搜索函数，暂时公开化，未来将私有化，并用具体类型搜索函数调用
-    public function search($target, $table, $where1, $where2, $opt)
+    private function search($target, $table, $where1, $where2, $opt)
     {
         //当查询的条件包含 ' 时的操作
         $leng = strlen($where2);
@@ -44,6 +44,40 @@ class postgresql
             return array(0, 'error');
         }
         return array(1, pg_fetch_assoc($result));
+    }
+
+    //查询指定服务器id是否存在于本地数据库中
+    public function isExistServer($id): bool
+    {
+        $search = $this->search('*', 'serverlist', 'serverlist.server_id', $id, '=');
+        if ($search[0] === 0) {
+            return false;
+        } else if (!$search[1]) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function insertServer($id): bool
+    {
+        $sql = 'insert into serverlist (server_id) values (' . $id . ');';
+        $result = pg_query($this->dbConn, $sql);
+        if (!$result) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getServerCount(): int
+    {
+        $sql = "select count(*) from serverlist;";
+        $result = pg_query($this->dbConn, $sql);
+        if (!$result) {
+            return 0;
+        }
+        $array = pg_fetch_assoc($result);
+        return (int)$array['count'];
     }
 
     //搜索指定任务名的 ID

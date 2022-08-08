@@ -80,7 +80,8 @@ class TaskProcessor
         $this->status = array(
             'start' => date('c'),
             'commandCount' => 0,
-            'correctCount' => 0);
+            'correctCount' => 0,
+            'serverCount' => $this->db->getServerCount());
     }
 
     /*
@@ -92,6 +93,7 @@ class TaskProcessor
         ++$this->status['commandCount'];
         $this->commandSplit($command);
         $this->messageInfo = $messageInfo;
+        $this->checkServerList();
         $this->taskChecker();
     }
 
@@ -117,7 +119,7 @@ class TaskProcessor
     private function getStatus(): array
     {
         $time_diff = date_diff(date_create($this->status['start']), date_create(date('c')));
-        $timeString1 = '机器人本次启动于：' . substr($this->status['start'], 0, 10) . ' ' . substr($this->status['start'], 11, 8) . "\n";
+        $timeString1 = '机器人本次启动于：**' . substr($this->status['start'], 0, 10) . ' ' . substr($this->status['start'], 11, 8) . "**\n";
         $timeString2 = '至今已运行了：';
         if ($time_diff->y !== 0) {
             $timeString2 .= $time_diff->y . '年';
@@ -138,12 +140,13 @@ class TaskProcessor
             $timeString2 .= $time_diff->s . '秒';
         }
         $timeString2 .= "\n";
-        $timeString3 = '目前，机器人已经响应了 ' . $this->status['commandCount'] . ' 条指令，其中正确执行的有效指令有 ' . $this->status['correctCount'] . ' 条';
-        $msg = $timeString1 . $timeString2 . $timeString3;
+        $timeString3 = '目前，机器人已经响应了 **' . $this->status['commandCount'] . '** 条指令，其中正确执行的有效指令有 **' . $this->status['correctCount'] . '** 条';
+        $serverStatus = "\n自上次更新以来，本机器人已经在 **" . $this->status['serverCount'] . "** 个服务器中处理过指令";
+        $msg = $timeString1 . $timeString2 . $timeString3 . $serverStatus;
         $target_id = $this->messageInfo['channelID'];
         $is_quote = true;
         $quote = $this->messageInfo['messageID'];
-        $type = 1;
+        $type = 9;
         return array($msg, $target_id, $is_quote, $quote, $type);
     }
 
@@ -196,5 +199,15 @@ class TaskProcessor
                 break;
         }
         $this->httpAPI->sendText($data[0], $data[1], $data[2], $data[3], $data[4]);
+    }
+
+    private function checkServerList(): void
+    {
+        if ($this->db->isExistServer($this->messageInfo['serverID'])) {
+            //
+        } else {
+            $this->db->insertServer($this->messageInfo['serverID']);
+            $this->status['serverCount']++;
+        }
     }
 }
