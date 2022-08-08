@@ -105,23 +105,8 @@ class PriceFetch extends CommandParser
 
     private function getPriceURL(): array
     {
-        $id = 0;
-        //检索中文物品列表
-        $search = $this->db->search('itemlist.id', 'itemlist', 'itemlist.item', $this->args['item'][0], '=');
-        //查询中文列表返回结果为空时，检索英文列表
-        if ($search[0] === 1) {
-            if (!$search[1]) {
-                $search = $this->db->search('itemlist.id', 'itemlist', 'itemlist.item_en', $this->args['item'][0], '=');
-            }
-        }
-        //查询英文列表返回结果为空时，检索日文列表
-        if ($search[0] === 1) {
-            if (!$search[1]) {
-                $search = $this->db->search('itemlist.id', 'itemlist', 'itemlist.item_jp', $this->args['item'][0], '=');
-            }
-        }
-        //无法执行 sql 语句时
-        if ($search[0] === 0) {
+        $result = $this->db->getItemID($this->args['item'][0]);
+        if ($result[0] === 0) {
             $msg = '查询出错，请检查 sql 语句或数据库状态！（联系开发者或机器人所有者）';
             $target_id = $this->messageInfo['channelID'];
             $is_quote = true;
@@ -129,11 +114,8 @@ class PriceFetch extends CommandParser
             $type = 1;
             $data = array($msg, $target_id, $is_quote, $quote, $type);
             return array(0, $data);
-        }
-        //三次全部查完
-        if ($search[0] === 1) {
-            //最终结果为空时
-            if (!$search[1]) {
+        } else {
+            if ($result[1] === 0) {
                 $msg = '没有结果，请确保输入的物品名正确！（英文文本区分大小写）';
                 $target_id = $this->messageInfo['channelID'];
                 $is_quote = true;
@@ -142,9 +124,8 @@ class PriceFetch extends CommandParser
                 $data = array($msg, $target_id, $is_quote, $quote, $type);
                 return array(0, $data);
             }
-            //正常检索到结果
-            $id = $search[1]['id'];
         }
+        $id = $result[1];
 
         //当查询类型为空时，默认查询当前出售价格和出售记录（买模式+卖模式）
         if (empty($this->args['type'])) {
