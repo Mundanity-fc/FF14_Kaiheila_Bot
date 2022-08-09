@@ -244,12 +244,12 @@ class QuestSearch extends CommandParser
         }
 
         //技能报酬框架
-        if (!is_null($questArray['ActionReward'])) {
+        if (!is_null($questArray['ActionRewardID'])) {
             $ActionCard = new Card();
             $ActionTitle = new PlainText('技能习得', 'plain-text', 'header');
             $ActionCard->insert($ActionTitle);
-            $ActionName = $this->db->getActionName($questArray['ActionReward']->ID)[1][0];
-            $ActionIcon = $questArray['ActionReward']->IconHD;
+            $ActionName = $this->db->getActionName($questArray['ActionRewardID'])[1][0];
+            $ActionIcon = $questArray['ActionRewardIcon'];
             $Action = new ImageText($ActionName, 'https://cafemaker.wakingsands.com' . $ActionIcon, 'kmarkdown');
             $ActionCard->insert($Action);
             $data[] = $ActionCard;
@@ -386,7 +386,8 @@ class QuestSearch extends CommandParser
             'Catalyst0' => $data->ItemCatalyst0,
             'Catalyst1' => $data->ItemCatalyst1,
             'Catalyst2' => $data->ItemCatalyst2,
-            'ActionReward' => $data->ActionReward
+            'ActionRewardID' => $data->ActionReward->ID,
+            'ActionRewardIcon' => $data->ActionReward->IconHD
         ));
     }
 
