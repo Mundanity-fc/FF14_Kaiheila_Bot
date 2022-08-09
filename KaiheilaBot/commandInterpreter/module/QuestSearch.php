@@ -158,53 +158,53 @@ class QuestSearch extends CommandParser
             }
             if ($questArray['CatalystNum0']) {
                 $Catalyst0Name = $this->db->getItemName($questArray['Catalyst0']->ID)[1][0];
-                $Catalyst0Reward = new ImageText('x' . $questArray['CatalystNum0'] . ' [' . $Catalyst0Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst0Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Catalyst0']->Icon, 'kmarkdown');
+                $Catalyst0Reward = new ImageText('x' . $questArray['CatalystNum0'] . ' [' . $Catalyst0Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst0Name . ')', 'https://xivapi.com' . $questArray['Catalyst0']->Icon, 'kmarkdown');
                 $rewardCard->insert($Catalyst0Reward);
             }
             if ($questArray['CatalystNum1']) {
                 $Catalyst1Name = $this->db->getItemName($questArray['Catalyst1']->ID)[1][0];
-                $Catalyst1Reward = new ImageText('x' . $questArray['CatalystNum1'] . ' [' . $Catalyst1Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst1Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Catalyst1']->Icon, 'kmarkdown');
+                $Catalyst1Reward = new ImageText('x' . $questArray['CatalystNum1'] . ' [' . $Catalyst1Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst1Name . ')', 'https://xivapi.com' . $questArray['Catalyst1']->Icon, 'kmarkdown');
                 $rewardCard->insert($Catalyst1Reward);
             }
             if ($questArray['CatalystNum2']) {
                 $Catalyst2Name = $this->db->getItemName($questArray['Catalyst2']->ID)[1][0];
-                $Catalyst2Reward = new ImageText('x' . $questArray['CatalystNum2'] . ' [' . $Catalyst2Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst2Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Catalyst2']->Icon, 'kmarkdown');
+                $Catalyst2Reward = new ImageText('x' . $questArray['CatalystNum2'] . ' [' . $Catalyst2Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Catalyst2Name . ')', 'https://xivapi.com' . $questArray['Catalyst2']->Icon, 'kmarkdown');
                 $rewardCard->insert($Catalyst2Reward);
             }
             if ($questArray['ItemNum0']) {
 
                 $Item0Name = $this->db->getItemName($questArray['Item0']->ID)[1][0];
-                $item0Reward = new ImageText('x' . $questArray['ItemNum0'] . ' [' . $Item0Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item0Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item0']->Icon, 'kmarkdown');
+                $item0Reward = new ImageText('x' . $questArray['ItemNum0'] . ' [' . $Item0Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item0Name . ')', 'https://xivapi.com' . $questArray['Item0']->Icon, 'kmarkdown');
                 $rewardCard->insert($item0Reward);
             }
             if ($questArray['ItemNum1']) {
                 $Item1Name = $this->db->getItemName($questArray['Item1']->ID)[1][0];
-                $item1Reward = new ImageText('x' . $questArray['ItemNum1'] . ' [' . $Item1Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item1Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item1']->Icon, 'kmarkdown');
+                $item1Reward = new ImageText('x' . $questArray['ItemNum1'] . ' [' . $Item1Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item1Name . ')', 'https://xivapi.com' . $questArray['Item1']->Icon, 'kmarkdown');
                 $rewardCard->insert($item1Reward);
             }
             if ($questArray['ItemNum2']) {
                 $Item2Name = $this->db->getItemName($questArray['Item2']->ID)[1][0];
-                $item2Reward = new ImageText('x' . $questArray['ItemNum2'] . ' [' . $Item2Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item2Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item2']->Icon, 'kmarkdown');
+                $item2Reward = new ImageText('x' . $questArray['ItemNum2'] . ' [' . $Item2Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item2Name . ')', 'https://xivapi.com' . $questArray['Item2']->Icon, 'kmarkdown');
                 $rewardCard->insert($item2Reward);
             }
             if ($questArray['ItemNum3']) {
                 $Item3Name = $this->db->getItemName($questArray['Item3']->ID)[1][0];
-                $item3Reward = new ImageText('x' . $questArray['ItemNum3'] . ' [' . $Item3Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item3Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item3']->Icon, 'kmarkdown');
+                $item3Reward = new ImageText('x' . $questArray['ItemNum3'] . ' [' . $Item3Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item3Name . ')', 'https://xivapi.com' . $questArray['Item3']->Icon, 'kmarkdown');
                 $rewardCard->insert($item3Reward);
             }
             if ($questArray['ItemNum4']) {
                 $Item4Name = $this->db->getItemName($questArray['Item4']->ID)[1][0];
-                $item4Reward = new ImageText('x' . $questArray['ItemNum4'] . ' [' . $Item4Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item4Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item4']->Icon, 'kmarkdown');
+                $item4Reward = new ImageText('x' . $questArray['ItemNum4'] . ' [' . $Item4Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item4Name . ')', 'https://xivapi.com' . $questArray['Item4']->Icon, 'kmarkdown');
                 $rewardCard->insert($item4Reward);
             }
             if ($questArray['ItemNum5']) {
                 $Item5Name = $this->db->getItemName($questArray['Item5']->ID)[1][0];
-                $item5Reward = new ImageText('x' . $questArray['ItemNum5'] . ' [' . $Item5Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item5Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item5']->Icon, 'kmarkdown');
+                $item5Reward = new ImageText('x' . $questArray['ItemNum5'] . ' [' . $Item5Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item5Name . ')', 'https://xivapi.com' . $questArray['Item5']->Icon, 'kmarkdown');
                 $rewardCard->insert($item5Reward);
             }
             if ($questArray['ItemNum6']) {
                 $Item6Name = $this->db->getItemName($questArray['Item6']->ID)[1][0];
-                $item6Reward = new ImageText('x' . $questArray['ItemNum6'] . ' [' . $Item6Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item6Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Item6']->Icon, 'kmarkdown');
+                $item6Reward = new ImageText('x' . $questArray['ItemNum6'] . ' [' . $Item6Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Item6Name . ')', 'https://xivapi.com' . $questArray['Item6']->Icon, 'kmarkdown');
                 $rewardCard->insert($item6Reward);
             }
             $data[] = $rewardCard;
@@ -217,27 +217,27 @@ class QuestSearch extends CommandParser
             $OptionCard->insert($OptionTitle);
             if ($questArray['OptionNum0']) {
                 $Option0Name = $this->db->getItemName($questArray['Option0']->ID)[1][0];
-                $Option0 = new ImageText('x' . $questArray['OptionNum0'] . ' [' . $Option0Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option0Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option0']->Icon, 'kmarkdown');
+                $Option0 = new ImageText('x' . $questArray['OptionNum0'] . ' [' . $Option0Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option0Name . ')', 'https://xivapi.com' . $questArray['Option0']->Icon, 'kmarkdown');
                 $OptionCard->insert($Option0);
             }
             if ($questArray['OptionNum1']) {
                 $Option1Name = $this->db->getItemName($questArray['Option1']->ID)[1][0];
-                $Option1 = new ImageText('x' . $questArray['OptionNum1'] . ' [' . $Option1Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option1Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option1']->Icon, 'kmarkdown');
+                $Option1 = new ImageText('x' . $questArray['OptionNum1'] . ' [' . $Option1Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option1Name . ')', 'https://xivapi.com' . $questArray['Option1']->Icon, 'kmarkdown');
                 $OptionCard->insert($Option1);
             }
             if ($questArray['OptionNum2']) {
                 $Option2Name = $this->db->getItemName($questArray['Option2']->ID)[1][0];
-                $Option2 = new ImageText('x' . $questArray['OptionNum2'] . ' [' . $Option2Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option2Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option2']->Icon, 'kmarkdown');
+                $Option2 = new ImageText('x' . $questArray['OptionNum2'] . ' [' . $Option2Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option2Name . ')', 'https://xivapi.com' . $questArray['Option2']->Icon, 'kmarkdown');
                 $OptionCard->insert($Option2);
             }
             if ($questArray['OptionNum3']) {
                 $Option3Name = $this->db->getItemName($questArray['Option3']->ID)[1][0];
-                $Option3 = new ImageText('x' . $questArray['OptionNum3'] . ' [' . $Option3Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option3Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option3']->Icon, 'kmarkdown');
+                $Option3 = new ImageText('x' . $questArray['OptionNum3'] . ' [' . $Option3Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option3Name . ')', 'https://xivapi.com' . $questArray['Option3']->Icon, 'kmarkdown');
                 $OptionCard->insert($Option3);
             }
             if ($questArray['OptionNum4']) {
                 $Option4Name = $this->db->getItemName($questArray['Option4']->ID)[1][0];
-                $Option4 = new ImageText('x' . $questArray['OptionNum4'] . ' [' . $Option4Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option4Name . ')', 'https://cafemaker.wakingsands.com' . $questArray['Option4']->Icon, 'kmarkdown');
+                $Option4 = new ImageText('x' . $questArray['OptionNum4'] . ' [' . $Option4Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $Option4Name . ')', 'https://xivapi.com' . $questArray['Option4']->Icon, 'kmarkdown');
                 $OptionCard->insert($Option4);
             }
             $data[] = $OptionCard;
@@ -293,23 +293,35 @@ class QuestSearch extends CommandParser
         ItemCountReward4,
         ItemCountReward5,
         ItemCountReward6,
-        ItemReward0,
-        ItemReward1,
-        ItemReward2,
-        ItemReward3,
-        ItemReward4,
-        ItemReward5,
-        ItemReward6,
+        ItemReward0.ID,
+        ItemReward0.Icon,
+        ItemReward1.ID,
+        ItemReward1.Icon,
+        ItemReward2.ID,
+        ItemReward2.Icon,
+        ItemReward3.ID,
+        ItemReward3.Icon,
+        ItemReward4.ID,
+        ItemReward4.Icon,
+        ItemReward5.ID,
+        ItemReward5.Icon,
+        ItemReward6.ID,
+        ItemReward6.Icon,
         OptionalItemCountReward0,
         OptionalItemCountReward1,
         OptionalItemCountReward2,
         OptionalItemCountReward3,
         OptionalItemCountReward4,
-        OptionalItemReward0,
-        OptionalItemReward1,
-        OptionalItemReward2,
-        OptionalItemReward3,
-        OptionalItemReward4,
+        OptionalItemReward0.ID,
+        OptionalItemReward0.Icon,
+        OptionalItemReward1.ID,
+        OptionalItemReward1.Icon,
+        OptionalItemReward2.ID,
+        OptionalItemReward2.Icon,
+        OptionalItemReward3.ID,
+        OptionalItemReward3.Icon,
+        OptionalItemReward4.ID,
+        OptionalItemReward4.Icon,
         ItemCountCatalyst0,
         ItemCountCatalyst1,
         ItemCountCatalyst2,
