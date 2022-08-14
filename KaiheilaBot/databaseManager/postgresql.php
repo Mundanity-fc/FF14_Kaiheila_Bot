@@ -38,7 +38,7 @@ class postgresql
             $where2 = implode($array);
         }
 
-        $sql = 'select ' . $target . ' from ' . $table . ' where ' . $where1 . ' ' . $opt . ' \'' . $where2 . '\';';
+        $sql = 'select ' . $target . ' from "' . $table . '" where ' . $where1 . ' ' . $opt . ' \'' . $where2 . '\';';
         $result = pg_query($this->dbConn, $sql);
         if (!$result) {
             return array(0, 'error');
@@ -86,16 +86,16 @@ class postgresql
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
         $result = 0;
         //检索中文列表
-        $search = $this->search('questlist.id', 'questlist', 'questlist.quest', $quest, '=');
+        $search = $this->search('questlist.id', 'questlist', 'quest', $quest, '=');
 
         //查询中文列表返回结果为空时，检索英文列表
         if (($search[0] === 1) && !$search[1]) {
-            $search = $this->search('questlist.id', 'questlist', 'questlist.quest_en', $quest, '=');
+            $search = $this->search('questlist.id', 'questlist', 'quest_en', $quest, '=');
         }
 
         //查询英文列表返回结果为空时，检索日文列表
         if (($search[0] === 1) && !$search[1]) {
-            $search = $this->search('questlist.id', 'questlist', 'questlist.quest_jp', $quest, '=');
+            $search = $this->search('questlist.id', 'questlist', 'quest_jp', $quest, '=');
         }
 
         //无法执行 sql 语句时
@@ -122,7 +122,7 @@ class postgresql
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
         $result = 0;
-        $search = $this->search('*', 'questlist', 'questlist.id', $id, '=');
+        $search = $this->search('*', 'questlist', 'id', $id, '=');
 
         //无法执行 sql 语句时
         if ($search[0] === 0) {
@@ -149,16 +149,16 @@ class postgresql
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
         $result = 0;
         //检索中文列表
-        $search = $this->search('itemlist.id', 'itemlist', 'itemlist.item', $item, '=');
+        $search = $this->search('itemlist.id', 'itemlist', 'item', $item, '=');
 
         //查询中文列表返回结果为空时，检索英文列表
         if (($search[0] === 1) && !$search[1]) {
-            $search = $this->search('itemlist.id', 'itemlist', 'itemlist.item_en', $item, '=');
+            $search = $this->search('itemlist.id', 'itemlist', 'item_en', $item, '=');
         }
 
         //查询英文列表返回结果为空时，检索日文列表
         if (($search[0] === 1) && !$search[1]) {
-            $search = $this->search('itemlist.id', 'itemlist', 'itemlist.item_jp', $item, '=');
+            $search = $this->search('itemlist.id', 'itemlist', 'item_jp', $item, '=');
         }
 
         //无法执行 sql 语句时
@@ -185,7 +185,7 @@ class postgresql
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
         $result = 0;
-        $search = $this->search('*', 'itemlist', 'itemlist.id', $id, '=');
+        $search = $this->search('*', 'itemlist', 'id', $id, '=');
 
         //无法执行 sql 语句时
         if ($search[0] === 0) {
@@ -212,16 +212,16 @@ class postgresql
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
         $result = 0;
         //检索中文列表
-        $search = $this->search('actionlist.id', 'actionlist', 'actionlist.action', $quest, '=');
+        $search = $this->search('actionlist.id', 'actionlist', 'action', $quest, '=');
 
         //查询中文列表返回结果为空时，检索英文列表
         if (($search[0] === 1) && !$search[1]) {
-            $search = $this->search('actionlist.id', 'actionlist', 'actionlist.action_en', $quest, '=');
+            $search = $this->search('actionlist.id', 'actionlist', 'action_en', $quest, '=');
         }
 
         //查询英文列表返回结果为空时，检索日文列表
         if (($search[0] === 1) && !$search[1]) {
-            $search = $this->search('actionlist.id', 'actionlist', 'actionlist.action_jp', $quest, '=');
+            $search = $this->search('actionlist.id', 'actionlist', 'action_jp', $quest, '=');
         }
 
         //无法执行 sql 语句时
@@ -248,7 +248,7 @@ class postgresql
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
         $result = 0;
-        $search = $this->search('*', 'actionlist', 'actionlist.id', $id, '=');
+        $search = $this->search('*', 'actionlist', 'id', $id, '=');
 
         //无法执行 sql 语句时
         if ($search[0] === 0) {
@@ -264,6 +264,136 @@ class postgresql
             } else {
                 //正常检索到结果
                 $data = array($search[1]['action'], $search[1]['action_en'], $search[1]['action_jp']);
+            }
+        }
+        return array($result, $data);
+    }
+
+    //
+    public function getJournalCategoryName($id)
+    {
+        $data = '数据库出错或 SQL 语句出错，请联系开发者';
+        $result = 0;
+        $search = $this->search('*', 'JournalCategory', 'id', $id, '=');
+
+        //无法执行 sql 语句时
+        if ($search[0] === 0) {
+            return array($result, $data);
+        }
+
+        //正常执行结束后
+        if ($search[0] === 1) {
+            $result = 1;
+            //无结果时
+            if (!$search[1]) {
+                $data = array('', '', '');
+            } else {
+                //正常检索到结果
+                $data = array($search[1]['cn'], $search[1]['en'], $search[1]['jp']);
+            }
+        }
+        return array($result, $data);
+    }
+
+    //
+    public function getJournalGenreName($id)
+    {
+        $data = '数据库出错或 SQL 语句出错，请联系开发者';
+        $result = 0;
+        $search = $this->search('*', 'JournalGenre', 'id', $id, '=');
+
+        //无法执行 sql 语句时
+        if ($search[0] === 0) {
+            return array($result, $data);
+        }
+
+        //正常执行结束后
+        if ($search[0] === 1) {
+            $result = 1;
+            //无结果时
+            if (!$search[1]) {
+                $data = array('', '', '');
+            } else {
+                //正常检索到结果
+                $data = array($search[1]['cn'], $search[1]['en'], $search[1]['jp']);
+            }
+        }
+        return array($result, $data);
+    }
+
+    //
+    public function getQuestNPCName($id)
+    {
+        $data = '数据库出错或 SQL 语句出错，请联系开发者';
+        $result = 0;
+        $search = $this->search('*', 'ENpcResident', 'id', $id, '=');
+
+        //无法执行 sql 语句时
+        if ($search[0] === 0) {
+            return array($result, $data);
+        }
+
+        //正常执行结束后
+        if ($search[0] === 1) {
+            $result = 1;
+            //无结果时
+            if (!$search[1]) {
+                $data = array('', '', '');
+            } else {
+                //正常检索到结果
+                $data = array($search[1]['cn'], $search[1]['en'], $search[1]['jp']);
+            }
+        }
+        return array($result, $data);
+    }
+
+    //
+    public function getQuestPlaceName($id)
+    {
+        $data = '数据库出错或 SQL 语句出错，请联系开发者';
+        $result = 0;
+        $search = $this->search('*', 'PlaceName', 'id', $id, '=');
+
+        //无法执行 sql 语句时
+        if ($search[0] === 0) {
+            return array($result, $data);
+        }
+
+        //正常执行结束后
+        if ($search[0] === 1) {
+            $result = 1;
+            //无结果时
+            if (!$search[1]) {
+                $data = array('', '', '');
+            } else {
+                //正常检索到结果
+                $data = array($search[1]['cn'], $search[1]['en'], $search[1]['jp']);
+            }
+        }
+        return array($result, $data);
+    }
+
+    //
+    public function getClassJobCategoryName($id)
+    {
+        $data = '数据库出错或 SQL 语句出错，请联系开发者';
+        $result = 0;
+        $search = $this->search('*', 'ClassJobCategory', 'id', $id, '=');
+
+        //无法执行 sql 语句时
+        if ($search[0] === 0) {
+            return array($result, $data);
+        }
+
+        //正常执行结束后
+        if ($search[0] === 1) {
+            $result = 1;
+            //无结果时
+            if (!$search[1]) {
+                $data = array('', '', '');
+            } else {
+                //正常检索到结果
+                $data = array($search[1]['cn'], $search[1]['en'], $search[1]['jp']);
             }
         }
         return array($result, $data);

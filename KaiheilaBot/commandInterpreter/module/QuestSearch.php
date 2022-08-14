@@ -14,9 +14,9 @@ use Swlib\Saber;
 
 class QuestSearch extends CommandParser
 {
-    //XIV查询对象
+    //XIVAPI查询对象
     protected $XIVAPI;
-    //XIV开发者Key,由于使用Cafemaker镜像，暂时无用
+    //XIVAPI开发者Key
     protected $XIVAPIKey;
 
     /*
@@ -25,7 +25,7 @@ class QuestSearch extends CommandParser
      * */
     public function getConfig($XIVAPIKey): void
     {
-        $this->XIVAPI = Saber::create(['base_uri' => 'https://cafemaker.wakingsands.com']);
+        $this->XIVAPI = Saber::create(['base_uri' => 'https://xivapi.com']);
         $this->XIVAPIKey = $XIVAPIKey;
     }
 
@@ -114,7 +114,8 @@ class QuestSearch extends CommandParser
         $infoCard = new Card();
 
         //任务标题信息框架
-        $questTitle = new ImageText('**[' . $questArray['Name'] . '](https://ff14.huijiwiki.com/wiki/任务:' . $questArray['Name'] . ')**', 'https://cafemaker.wakingsands.com' . $questArray['Icon'], 'kmarkdown');
+        $questName = $this->db->getQuestName($questArray['ID']);
+        $questTitle = new ImageText('**[' . $questName[1][0] . '](https://ff14.huijiwiki.com/wiki/任务:' . $questName[1][0] . ')**', 'https://xivapi.com' . $questArray['Icon'], 'kmarkdown');
         $infoCard->insert($questTitle);
 
         //任务图片框架
@@ -132,13 +133,23 @@ class QuestSearch extends CommandParser
         if (is_null($questArray['MainCategory'])) {
             $detailInfo->insert("**主分类**\n", 'kmarkdown');
         } else {
-            $detailInfo->insert("**主分类**\n[" . $questArray['MainCategory'] . '](https://ff14.huijiwiki.com/wiki/' . $questArray['MainCategory'] . ')', 'kmarkdown');
+            $MainCategory = $this->db->getJournalCategoryName($questArray['MainCategory']);
+            $detailInfo->insert("**主分类**\n[" . $MainCategory[1][0] . '](https://ff14.huijiwiki.com/wiki/' . $questArray['MainCategory'] . ')', 'kmarkdown');
         }
-        $detailInfo->insert("**子分类**\n" . $questArray['SubCategory'], 'kmarkdown');
-        $detailInfo->insert("**职业**\n" . $questArray['Job'], 'kmarkdown');
-        $detailInfo->insert("**开始地区**\n" . $questArray['StartPlace'], 'kmarkdown');
-        $detailInfo->insert("**开始NPC**\n" . $questArray['StartNPC'], 'kmarkdown');
-        $detailInfo->insert("**结束NPC**\n" . $questArray['FinishNPC'], 'kmarkdown');
+        $SubCategory = $this->db->getJournalGenreName($questArray['SubCategory']);
+        $detailInfo->insert("**子分类**\n" . $SubCategory[1][0], 'kmarkdown');
+
+        $Job = $this->db->getClassJobCategoryName($questArray['Job']);
+        $detailInfo->insert("**职业**\n" . $Job[1][0], 'kmarkdown');
+
+        $StartPlace = $this->db->getQuestPlaceName($questArray['StartPlace']);
+        $detailInfo->insert("**开始地区**\n" . $StartPlace[1][0], 'kmarkdown');
+
+        $StartNPC = $this->db->getQuestNPCName($questArray['StartPlace']);
+        $detailInfo->insert("**开始NPC**\n" . $StartNPC[1][0], 'kmarkdown');
+
+        $EndNPC = $this->db->getQuestNPCName($questArray['FinishNPC']);
+        $detailInfo->insert("**结束NPC**\n" . $EndNPC[1][0], 'kmarkdown');
         $infoCard->insert($detailInfo);
         $infoCard->insert($divider);
         $data = array($infoCard);
@@ -250,7 +261,7 @@ class QuestSearch extends CommandParser
             $ActionCard->insert($ActionTitle);
             $ActionName = $this->db->getActionName($questArray['ActionRewardID'])[1][0];
             $ActionIcon = $questArray['ActionRewardIcon'];
-            $Action = new ImageText($ActionName, 'https://cafemaker.wakingsands.com' . $ActionIcon, 'kmarkdown');
+            $Action = new ImageText($ActionName, 'https://xivapi.com' . $ActionIcon, 'kmarkdown');
             $ActionCard->insert($Action);
             $data[] = $ActionCard;
         }
@@ -279,11 +290,11 @@ class QuestSearch extends CommandParser
      * */
     private function getQuestInfo($questID): array
     {
+        //TextData.ToDo
         //任务具体信息筛选
-        $searchCondition = "?columns=Name,
+        $searchCondition = "?columns=ID,
         Banner,
-        TextData.ToDo,
-        PlaceName.Name,
+        PlaceName.ID,
         GilReward,
         ExperiencePoints,
         ItemCountReward0,
@@ -329,11 +340,11 @@ class QuestSearch extends CommandParser
         ItemCatalyst1,
         ItemCatalyst2,
         Icon,
-        IssuerStart.Name,
-        TargetEnd.Name,
-        ClassJobCategory0.Name,
-        JournalGenre.JournalCategory.Name,
-        JournalGenre.Name,
+        IssuerStart.ID,
+        TargetEnd.ID,
+        ClassJobCategory0.ID,
+        JournalGenre.JournalCategory.ID,
+        JournalGenre.ID,
         ActionReward.ID,
         ActionReward.IconHD";
         //字符串格式化
@@ -347,25 +358,26 @@ class QuestSearch extends CommandParser
             $data = '错误的 URL 地址，请检查访问连接';
             return array(0, $data);
         } catch (\Swlib\Http\Exception\ConnectException $e) {
-            $data = '无法与服务器建立连接，请重试（由于并非与 XIVAPI 直接通讯，而是与 FFCafe 的 API 建立连接，或者是达到每分钟访问限制）';
+            $data = '无法与服务器建立连接，请重试（可能达到每分钟访问限制）';
             return array(0, $data);
         } catch (\Swlib\Http\Exception\ServerException $e) {
-            $data = 'FFCafe 服务器出错，返回了 50X 状态码';
+            $data = 'XIVAPI 服务器出错，返回了 50X 状态码';
             return array(0, $data);
         }
 
         $data = json_decode($data->body);
+        //'TodoList' => $data->TextData->ToDo,
         return array(1, array(
-            'Name' => $data->Name,
+            'ID' => $data->ID,
             'Banner' => $data->Banner,
             'Icon' => $data->Icon,
-            'Job' => $data->ClassJobCategory0->Name,
-            'MainCategory' => $data->JournalGenre->JournalCategory->Name,
-            'SubCategory' => $data->JournalGenre->Name,
-            'StartPlace' => $data->PlaceName->Name,
-            'StartNPC' => $data->IssuerStart->Name,
-            'FinishNPC' => $data->TargetEnd->Name,
-            'TodoList' => $data->TextData->ToDo,
+            'Job' => $data->ClassJobCategory0->ID,
+            'TodoList' => null,
+            'MainCategory' => $data->JournalGenre->JournalCategory->ID,
+            'SubCategory' => $data->JournalGenre->ID,
+            'StartPlace' => $data->PlaceName->ID,
+            'StartNPC' => $data->IssuerStart->ID,
+            'FinishNPC' => $data->TargetEnd->ID,
             'Money' => $data->GilReward,
             'Exp' => $data->ExperiencePoints,
             'ItemNum0' => $data->ItemCountReward0,
