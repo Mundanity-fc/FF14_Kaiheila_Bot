@@ -129,7 +129,7 @@ class PriceFetch extends CommandParser
 
         //当查询类型为空时，默认查询当前出售价格和出售记录（买模式+卖模式）
         if (empty($this->args['type'])) {
-            $itemURL = '/item/' . $id . '?columns=Icon,Name&private_key=' . $this->XIVAPIKey;
+            $itemURL = '/item/' . $id . '?columns=Icon,ID&private_key=' . $this->XIVAPIKey;
             $dataURL = '/api/v2/' . $this->args['region'][0] . '/' . $id . '?';
             //查询时长
             if (!empty($this->args['time'])) {
@@ -157,7 +157,7 @@ class PriceFetch extends CommandParser
 
         //买模式查询（查询指定时间范围内的出售价格）
         if ($this->args['type'][0] === '买' || $this->args['type'][0] === 'B' || $this->args['type'][0] === 'b') {
-            $itemURL = '/item/' . $id . '?columns=Icon,Name&private_key=' . $this->XIVAPIKey;;
+            $itemURL = '/item/' . $id . '?columns=Icon,ID&private_key=' . $this->XIVAPIKey;;
             $dataURL = '/api/v2/' . $this->args['region'][0] . '/' . $id . '?';
             $dataURL .= 'entries=0&';
             //查询时长
@@ -183,7 +183,7 @@ class PriceFetch extends CommandParser
 
         //卖模式查询（查询指定时间范围内的出售记录）
         if ($this->args['type'][0] === '卖' || $this->args['type'][0] === 'S' || $this->args['type'][0] === 's') {
-            $itemURL = '/item/' . $id . '?columns=Icon,Name&private_key=' . $this->XIVAPIKey;;
+            $itemURL = '/item/' . $id . '?columns=Icon,ID&private_key=' . $this->XIVAPIKey;;
             $dataURL = '/api/v2/' . $this->args['region'][0] . '/' . $id . '?';
             $dataURL .= 'listings=0&';
             //查询时长
@@ -259,14 +259,14 @@ class PriceFetch extends CommandParser
             $type = 1;
             return array($msg, $target_id, $is_quote, $quote, $type);
         } catch (\Swlib\Http\Exception\ConnectException $e) {
-            $msg = '无法与服务器建立连接，请重试（由于并非与 XIVAPI 直接通讯，而是与 FFCafe 的 API 建立连接，或者是达到每分钟访问限制）';
+            $msg = '无法与服务器建立连接，请重试（可能达到每分钟访问限制）';
             $target_id = $this->messageInfo['channelID'];
             $is_quote = true;
             $quote = $this->messageInfo['messageID'];
             $type = 1;
             return array($msg, $target_id, $is_quote, $quote, $type);
         } catch (\Swlib\Http\Exception\ServerException $e) {
-            $msg = 'FFCafe 服务器出错，返回了 50X 状态码';
+            $msg = 'XIVAPI 服务器出错，返回了 50X 状态码';
             $target_id = $this->messageInfo['channelID'];
             $is_quote = true;
             $quote = $this->messageInfo['messageID'];
@@ -291,7 +291,8 @@ class PriceFetch extends CommandParser
         $itemInfo = new Card();
 
         //物品标题
-        $itemTitle = new ImageText('**[' . $datalist[1]->Name . '](https://ff14.huijiwiki.com/wiki/物品:' . $datalist[1]->Name . ')**', 'https://cafemaker.wakingsands.com' . $datalist[1]->Icon, 'kmarkdown');
+        $itemName = $this->db->getItemName($datalist[1]->ID);
+        $itemTitle = new ImageText('**[' . $itemName[1][0] . '](https://ff14.huijiwiki.com/wiki/物品:' . $itemName[1][0] . ')**', 'https://xivapi.com' . $datalist[1]->Icon, 'kmarkdown');
         $itemInfo->insert($itemTitle);
 
         //分割线
@@ -370,7 +371,7 @@ class PriceFetch extends CommandParser
     public function getConfig($XIVAPIKey): void
     {
         $this->UniversalisAPI = Saber::create(['base_uri' => 'https://universalis.app', 'timeout' => 30]);
-        $this->XIVAPI = Saber::create(['base_uri' => 'https://cafemaker.wakingsands.com', 'timeout' => 30]);
+        $this->XIVAPI = Saber::create(['base_uri' => 'https://xivapi.com', 'timeout' => 30]);
         $this->XIVAPIKey = $XIVAPIKey;
     }
 }
