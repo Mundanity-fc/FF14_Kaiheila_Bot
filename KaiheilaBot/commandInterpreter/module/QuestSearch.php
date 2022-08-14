@@ -134,7 +134,7 @@ class QuestSearch extends CommandParser
             $detailInfo->insert("**主分类**\n", 'kmarkdown');
         } else {
             $MainCategory = $this->db->getJournalCategoryName($questArray['MainCategory']);
-            $detailInfo->insert("**主分类**\n[" . $MainCategory[1][0] . '](https://ff14.huijiwiki.com/wiki/' . $questArray['MainCategory'] . ')', 'kmarkdown');
+            $detailInfo->insert("**主分类**\n[" . $MainCategory[1][0] . '](https://ff14.huijiwiki.com/wiki/' . $MainCategory[1][0] . ')', 'kmarkdown');
         }
         $SubCategory = $this->db->getJournalGenreName($questArray['SubCategory']);
         $detailInfo->insert("**子分类**\n" . $SubCategory[1][0], 'kmarkdown');
@@ -145,7 +145,7 @@ class QuestSearch extends CommandParser
         $StartPlace = $this->db->getQuestPlaceName($questArray['StartPlace']);
         $detailInfo->insert("**开始地区**\n" . $StartPlace[1][0], 'kmarkdown');
 
-        $StartNPC = $this->db->getQuestNPCName($questArray['StartPlace']);
+        $StartNPC = $this->db->getQuestNPCName($questArray['StartNPC']);
         $detailInfo->insert("**开始NPC**\n" . $StartNPC[1][0], 'kmarkdown');
 
         $EndNPC = $this->db->getQuestNPCName($questArray['FinishNPC']);
