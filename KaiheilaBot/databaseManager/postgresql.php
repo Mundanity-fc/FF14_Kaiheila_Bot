@@ -11,7 +11,12 @@ class postgresql
         $this->dbConn = pg_connect($dbConn_opts);
     }
 
-    //搜索函数，暂时公开化，未来将私有化，并用具体类型搜索函数调用
+    /*
+     * 搜索函数，暂时公开化，未来将私有化，并用具体类型搜索函数调用
+     * 返回类型：array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: any : 详细结果，在执行错误时，返回错误提示，在执行成功时，返回相应记录行
+     */
     private function search($target, $table, $where1, $where2, $opt)
     {
         //当查询的条件包含 ' 时的操作
@@ -46,7 +51,11 @@ class postgresql
         return array(1, pg_fetch_assoc($result));
     }
 
-    //查询指定服务器id是否存在于本地数据库中
+    /*
+     * 查询指定服务器 id 是否存在于本地数据库中
+     * 返回类型: bool
+     * 当无法找到记录或 SQL 执行错误时返回 false，当成功找到记录时返回 true
+     */
     public function isExistServer($id): bool
     {
         $search = $this->search('*', 'serverlist', 'serverlist.server_id', $id, '=');
@@ -59,6 +68,11 @@ class postgresql
         }
     }
 
+    /*
+     * 将指定的服务器 id 插入至本地数据库中
+     * 返回类型: bool
+     * 当无法插入时返回 false，当成功插入时返回 true
+     */
     public function insertServer($id): bool
     {
         $sql = 'insert into serverlist (server_id) values (' . $id . ');';
@@ -69,6 +83,11 @@ class postgresql
         return true;
     }
 
+    /*
+     * 获取记录在库的服务器总数
+     * 返回类型: int
+     * 当无法正确执行 SQL 语句返回0，否则返回实际数值
+     */
     public function getServerCount(): int
     {
         $sql = "select count(*) from serverlist;";
@@ -80,7 +99,12 @@ class postgresql
         return (int)$array['count'];
     }
 
-    //搜索指定任务名的 ID
+    /*
+     * 搜索指定任务名的 ID
+     * 返回类型: array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: int : 详细结果，在执行错误时，返回 0，在执行成功时，返回实际的 ID 数值
+     */
     public function getQuestID($quest): array
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
@@ -117,7 +141,12 @@ class postgresql
         return array($result, $data);
     }
 
-    //搜索指定 ID 的任务名（返回中/英/日）
+    /*
+     * 搜索指定 ID 的任务名（返回中/英/日）
+     * 返回类型: array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: any : 详细结果，在执行错误时，返回提示；无结果时，返回0；在执行成功时，返回相应的记录行
+     */
     public function getQuestName($id)
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
@@ -143,7 +172,12 @@ class postgresql
         return array($result, $data);
     }
 
-    //搜索指定道具名的 ID
+    /*
+     * 搜索指定道具名的 ID
+     * 返回类型: array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: int : 详细结果，在执行错误时，返回 0，在执行成功时，返回实际的 ID 数值
+     */
     public function getItemID($item)
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
@@ -180,7 +214,12 @@ class postgresql
         return array($result, $data);
     }
 
-    //搜索指定 ID 的道具名（返回中/英/日）
+    /*
+     * 搜索指定 ID 的道具名（返回中/英/日）
+     * 返回类型: array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: any : 详细结果，在执行错误时，返回提示；无结果时，返回0；在执行成功时，返回相应的记录行
+     */
     public function getItemName($id): array
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
@@ -206,7 +245,12 @@ class postgresql
         return array($result, $data);
     }
 
-    //搜索指定技能名的 ID
+    /*
+     * 搜索指定技能名的 ID
+     * 返回类型: array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: int : 详细结果，在执行错误时，返回 0，在执行成功时，返回实际的 ID 数值
+     */
     public function getActionID($quest): array
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
@@ -243,7 +287,12 @@ class postgresql
         return array($result, $data);
     }
 
-    //搜索指定 ID 的技能名（返回中/英/日）
+    /*
+     * 搜索指定 ID 的技能名（返回中/英/日）
+     * 返回类型: array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: any : 详细结果，在执行错误时，返回提示；无结果时，返回0；在执行成功时，返回相应的记录行
+     */
     public function getActionName($id)
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
@@ -269,7 +318,12 @@ class postgresql
         return array($result, $data);
     }
 
-    //
+    /*
+     * 获取指定的任务分类
+     * 返回类型: array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: any : 详细结果，在执行错误时，返回提示；无结果时，返回0；在执行成功时，返回相应的记录行
+     */
     public function getJournalCategoryName($id)
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
@@ -295,7 +349,12 @@ class postgresql
         return array($result, $data);
     }
 
-    //
+    /*
+     * 获取指定的任务主分类
+     * 返回类型: array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: any : 详细结果，在执行错误时，返回提示；无结果时，返回0；在执行成功时，返回相应的记录行
+     */
     public function getJournalGenreName($id)
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
@@ -321,7 +380,12 @@ class postgresql
         return array($result, $data);
     }
 
-    //
+    /*
+     * 获取指定的 NPC 姓名
+     * 返回类型: array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: any : 详细结果，在执行错误时，返回提示；无结果时，返回0；在执行成功时，返回相应的记录行
+     */
     public function getQuestNPCName($id)
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
@@ -347,7 +411,12 @@ class postgresql
         return array($result, $data);
     }
 
-    //
+    /*
+     * 获取指定的地点名称
+     * 返回类型: array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: any : 详细结果，在执行错误时，返回提示；无结果时，返回0；在执行成功时，返回相应的记录行
+     */
     public function getQuestPlaceName($id)
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
@@ -373,7 +442,12 @@ class postgresql
         return array($result, $data);
     }
 
-    //
+    /*
+     * 获取指定的任务职业分类名称
+     * 返回类型: array
+     * [0]: int : 执行代码，0为执行错误，1为执行成功
+     * [1]: any : 详细结果，在执行错误时，返回提示；无结果时，返回0；在执行成功时，返回相应的记录行
+     */
     public function getClassJobCategoryName($id)
     {
         $data = '数据库出错或 SQL 语句出错，请联系开发者';
