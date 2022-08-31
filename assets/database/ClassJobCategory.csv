@@ -1,0 +1,198 @@
+0,,,
+1,所有职业,All Classes,全クラス
+2,剑术师,GLA,剣術士
+3,格斗家,PGL,格闘士
+4,斧术师,MRD,斧術士
+5,枪术师,LNC,槍術士
+6,弓箭手,ARC,弓術士
+7,幻术师,CNJ,幻術士
+8,咒术师,THM,呪術士
+9,刻木匠,CRP,木工師
+10,锻铁匠,BSM,鍛冶師
+11,铸甲匠,ARM,甲冑師
+12,雕金匠,GSM,彫金師
+13,制革匠,LTW,革細工師
+14,裁衣匠,WVR,裁縫師
+15,炼金术士,ALC,錬金術師
+16,烹调师,CUL,調理師
+17,采矿工,MIN,採掘師
+18,园艺工,BTN,園芸師
+19,捕鱼人,FSH,漁師
+20,骑士,PLD,ナイト
+21,武僧,MNK,モンク
+22,战士,WAR,戦士
+23,龙骑士,DRG,竜騎士
+24,吟游诗人,BRD,吟遊詩人
+25,白魔法师,WHM,白魔道士
+26,黑魔法师,BLM,黒魔道士
+27,秘术师,ACN,巴術士
+28,召唤师,SMN,召喚士
+29,学者,SCH,学者
+30,战斗精英,Disciple of War,ファイター
+31,魔法导师,Disciple of Magic,ソーサラー
+32,大地使者,Disciple of the Land,ギャザラー
+33,能工巧匠,Disciple of the Hand,クラフター
+34,战斗精英 魔法导师,Disciples of War or Magic,ファイター ソーサラー
+35,能工巧匠 大地使者,Disciples of the Land or Hand,クラフター ギャザラー
+36,剑术师之外的战斗精英,Any Disciple of War (excluding gladiators),剣術士を除くファイター
+37,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 幻术师 咒术师 秘术师 骑士 战士 暗黑骑士,GLA PGL MRD LNC ARC ROG CNJ THM ACN PLD WAR DRK,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 幻術士 呪術士 巴術士 ナイト 戦士 暗黒騎士
+38,剑术师 骑士,GLA PLD,剣術士 ナイト
+39,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 骑士 战士 暗黑骑士,GLA PGL MRD LNC ARC ROG PLD WAR DRK,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 ナイト 戦士 暗黒騎士
+40,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 幻术师 咒术师 秘术师 武僧 战士 龙骑士 吟游诗人 忍者,GLA PGL MRD LNC ARC ROG CNJ THM ACN MNK WAR DRG BRD NIN,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 幻術士 呪術士 巴術士 モンク 戦士 竜騎士 吟遊詩人 忍者
+41,格斗家 武僧,PGL MNK,格闘士 モンク
+42,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 武僧 战士 龙骑士 吟游诗人 忍者,GLA PGL MRD LNC ARC ROG MNK WAR DRG BRD NIN,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 モンク 戦士 竜騎士 吟遊詩人 忍者
+43,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 幻术师 咒术师 秘术师 骑士 武僧 战士 龙骑士 暗黑骑士,GLA PGL MRD LNC ARC ROG CNJ THM ACN PLD MNK WAR DRG DRK,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 幻術士 呪術士 巴術士 ナイト モンク 戦士 竜騎士 暗黒騎士
+44,斧术师 战士,MRD WAR,斧術士 戦士
+45,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 骑士 武僧 战士 龙骑士 暗黑骑士,GLA PGL MRD LNC ARC ROG PLD MNK WAR DRG DRK,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 ナイト モンク 戦士 竜騎士 暗黒騎士
+46,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 幻术师 咒术师 秘术师 武僧 龙骑士 吟游诗人 忍者 机工士,GLA PGL MRD LNC ARC ROG CNJ THM ACN MNK DRG BRD NIN MCH,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 幻術士 呪術士 巴術士 モンク 竜騎士 吟遊詩人 忍者 機工士
+47,枪术师 龙骑士,LNC DRG,槍術士 竜騎士
+48,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 武僧 龙骑士 吟游诗人 忍者 机工士,GLA PGL MRD LNC ARC ROG MNK DRG BRD NIN MCH,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 モンク 竜騎士 吟遊詩人 忍者 機工士
+49,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 幻术师 咒术师 秘术师 吟游诗人 黑魔法师 召唤师 机工士,GLA PGL MRD LNC ARC ROG CNJ THM ACN BRD BLM SMN MCH,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 幻術士 呪術士 巴術士 吟遊詩人 黒魔道士 召喚士 機工士
+50,弓箭手 吟游诗人,ARC BRD,弓術士 吟遊詩人
+51,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 吟游诗人 机工士,GLA PGL MRD LNC ARC ROG BRD MCH,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 吟遊詩人 機工士
+52,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 幻术师 咒术师 秘术师 骑士 白魔法师 学者 占星术士,GLA PGL MRD LNC ARC ROG CNJ THM ACN PLD WHM SCH AST,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 幻術士 呪術士 巴術士 ナイト 白魔道士 学者 占星術師
+53,幻术师 白魔法师,CNJ WHM,幻術士 白魔道士
+54,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 幻术师 咒术师 秘术师 白魔法师 黑魔法师 召唤师 学者 占星术士,GLA PGL MRD LNC ARC ROG CNJ THM ACN WHM BLM SMN SCH AST,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 幻術士 呪術士 巴術士 白魔道士 黒魔道士 召喚士 学者 占星術師
+55,咒术师 黑魔法师,THM BLM,呪術士 黒魔道士
+56,剑术师 幻术师 咒术师 骑士 白魔法师 黑魔法师,GLA CNJ THM PLD WHM BLM,剣術士 幻術士 呪術士 ナイト 白魔道士 黒魔道士
+57,剑术师 咒术师 骑士 黑魔法师,GLA THM PLD BLM,剣術士 呪術士 ナイト 黒魔道士
+58,剑术师 幻术师 骑士 白魔法师,GLA CNJ PLD WHM,剣術士 幻術士 ナイト 白魔道士
+59,剑术师 斧术师 骑士 战士 暗黑骑士 绝枪战士,GLA MRD PLD WAR DRK GNB,剣術士 斧術士 ナイト 戦士 暗黒騎士 ガンブレイカー
+60,剑术师 斧术师 枪术师 骑士 战士 龙骑士 暗黑骑士 绝枪战士 钐镰客,GLA MRD LNC PLD WAR DRG DRK GNB RPR,剣術士 斧術士 槍術士 ナイト 戦士 竜騎士 暗黒騎士 ガンブレイカー リーパー
+61,幻术师 咒术师 秘术师 白魔法师 学者 占星术士,CNJ THM ACN WHM SCH AST,幻術士 呪術士 巴術士 白魔道士 学者 占星術師
+62,幻术师 咒术师 秘术师 白魔法师 黑魔法师 召唤师 学者 占星术士,CNJ THM ACN WHM BLM SMN SCH AST,幻術士 呪術士 巴術士 白魔道士 黒魔道士 召喚士 学者 占星術師
+63,咒术师 秘术师 黑魔法师 召唤师 赤魔法师 青魔法师,THM ACN BLM SMN RDM BLU,呪術士 巴術士 黒魔道士 召喚士 赤魔道士 青魔道士
+64,幻术师 白魔法师 学者 占星术士 贤者,CNJ WHM SCH AST SGE,幻術士 白魔道士 学者 占星術師 賢者
+65,格斗家 武僧 武士,PGL MNK SAM,格闘士 モンク 侍
+66,弓箭手 吟游诗人 机工士 舞者,ARC BRD MCH DNC,弓術士 吟遊詩人 機工士 踊り子
+67,剑术师 格斗家 斧术师 枪术师 双剑师 武僧 龙骑士 忍者,GLA PGL MRD LNC ROG MNK DRG NIN,剣術士 格闘士 斧術士 槍術士 双剣士 モンク 竜騎士 忍者
+68,秘术师 召唤师 学者,ACN SMN SCH,巴術士 召喚士 学者
+69,秘术师 召唤师,ACN SMN,巴術士 召喚士
+70,烹调师之外的能工巧匠,Any Disciple of the Hand (excluding culinarians),調理師以外のクラフター
+71,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 幻术师 咒术师 秘术师 白魔法师 黑魔法师 召唤师 学者,GLA PGL MRD LNC ARC ROG CNJ THM ACN WHM BLM SMN SCH,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 幻術士 呪術士 巴術士 白魔道士 黒魔道士 召喚士 学者
+72,幻术师 咒术师 秘术师 白魔法师 黑魔法师 召唤师 学者,CNJ THM ACN WHM BLM SMN SCH,幻術士 呪術士 巴術士 白魔道士 黒魔道士 召喚士 学者
+73,幻术师 白魔法师 学者 占星术士 贤者,CNJ WHM SCH AST SGE,幻術士 白魔道士 学者 占星術師 賢者
+74,,,
+75,,,
+76,枪术师 龙骑士 钐镰客,LNC DRG RPR,槍術士 竜騎士 リーパー
+77,,,
+78,,,
+79,,,
+80,,,
+81,,,
+82,,,
+83,,,
+84,格斗家 枪术师 武僧 龙骑士 武士 钐镰客,PGL LNC MNK DRG SAM RPR,格闘士 槍術士 モンク 竜騎士 侍 リーパー
+85,战斗精英 魔法导师 特职专用,Jobs of the Disciples of War or Magic,ファイター ソーサラー ジョブ専用
+86,骑士 战士 暗黑骑士 绝枪战士 武僧 龙骑士 忍者 武士,PLD WAR DRK GNB MNK DRG NIN SAM,ナイト 戦士 暗黒騎士 ガンブレイカー モンク 竜騎士 忍者 侍
+87,吟游诗人 机工士 舞者 黑魔法师 召唤师 赤魔法师 白魔法师 学者 占星术士,BRD MCH DNC BLM SMN RDM WHM SCH AST,吟遊詩人 機工士 踊り子 黒魔道士 召喚士 赤魔道士 白魔道士 学者 占星術師
+88,剑术师 斧术师 格斗家 枪术师 弓箭手 双剑师 骑士 武僧 战士 龙骑士 吟游诗人 忍者 暗黑骑士 机工士,GLA MRD PGL LNC ARC ROG PLD MNK WAR DRG BRD NIN MCH,剣術士 斧術士 格闘士 槍術士 弓術士 双剣士 ナイト モンク 戦士 竜騎士 吟遊詩人 忍者 暗黒騎士 機工士
+89,黑魔法师 召唤师 赤魔法师,BLM SMN RDM,黒魔道士 召喚士 赤魔道士
+90,弓箭手 幻术师 咒术师 秘术师 白魔法师 吟游诗人 黑魔法师 召唤师 学者 机工士 占星术士,ARC CNJ THM ACN WHM BRD BLM SMN SCH MCH AST,弓術士 幻術士 呪術士 巴術士 白魔道士 吟遊詩人 黒魔道士 召喚士 学者 機工士 占星術師
+91,双剑师,ROG,双剣士
+92,忍者,NIN,忍者
+93,双剑师  忍者,ROG NIN,双剣士 忍者
+94,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 忍者,GLA PGL MRD LNC ARC ROG NIN,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 忍者
+95,剑术师 格斗家 斧术师 枪术师 双剑师 忍者,GLA PGL MRD LNC ROG NIN,剣術士 格闘士 斧術士 槍術士 双剣士 忍者
+96,机工士,MCH,機工士
+97,格斗家 枪术师 弓箭手 双剑师 武僧 龙骑士 吟游诗人 忍者 机工士,PGL LNC ARC ROG MNK DRG BRD NIN MCH,格闘士 槍術士 弓術士 双剣士 モンク 竜騎士 吟遊詩人 忍者 機工士
+98,暗黑骑士,DRK,暗黒騎士
+99,占星术士,AST,占星術師
+100,弓箭手 双剑师 吟游诗人 忍者 机工士,ARC ROG BRD NIN MCH,弓術士 双剣士 吟遊詩人 忍者 機工士
+101,格斗家 枪术师 双剑师 武僧 龙骑士 忍者,PGL LNC ROG MNK DRG NIN,格闘士 槍術士 双剣士 モンク 竜騎士 忍者
+102,格斗家 双剑师 武僧 忍者 武士,PGL ROG MNK NIN SAM,格闘士 双剣士 モンク 忍者 侍
+103,双剑师  忍者,ROG NIN,双剣士 忍者
+104,,,
+105,弓箭手 双剑师 吟游诗人 忍者 机工士 舞者,ARC ROG BRD NIN MCH DNC,弓術士 双剣士 吟遊詩人 忍者 機工士 踊り子
+106,剑术师 格斗家 斧术师 枪术师 弓箭手 双剑师 吟游诗人,GLA MRD PGL LNC ARC ROG BRD,剣術士 格闘士 斧術士 槍術士 弓術士 双剣士 吟遊詩人
+107,骑士 武僧 战士 龙骑士 吟游诗人 白魔法师 黑魔法师 召唤师 学者 忍者 机工士 暗黑骑士 占星术士,PLD MNK WAR DRG BRD WHM BLM SMN SCH NIN MCH DRK AST,ナイト モンク 戦士 竜騎士 吟遊詩人 白魔道士 黒魔道士 召喚士 学者 忍者 機工士 暗黒騎士 占星術師
+108,战斗精英 魔法导师,Disciples of War or Magic,ファイター ソーサラー
+109,,,
+110,战斗精英 魔法导师 特职专用,Jobs of the Disciples of War or Magic,ファイター ソーサラー ジョブ専用
+111,武士,SAM,侍
+112,赤魔法师,RDM,赤魔道士
+113,剑术师 斧术师 骑士 战士 暗黑骑士 绝枪战士,GLA MRD PLD WAR DRK GNB,剣術士 斧術士 ナイト 戦士 暗黒騎士 ガンブレイカー
+114,格斗家 枪术师 武僧 龙骑士 双剑师 忍者 武士 钐镰客,PGL LNC ROG MNK DRG NIN SAM RPR,格闘士 槍術士 モンク 竜騎士 双剣士 忍者 侍 リーパー
+115,弓箭手 吟游诗人 机工士 舞者,ARC BRD MCH DNC,弓術士 吟遊詩人 機工士 踊り子
+116,咒术师 黑魔法师 秘术师 召唤师 赤魔法师 青魔法师,THM ACN BLM SMN RDM BLU,呪術士 黒魔道士 巴術士 召喚士 赤魔道士 青魔道士
+117,幻术师 白魔法师 学者 占星术士 贤者,CNJ WHM SCH AST SGE,幻術士 白魔道士 学者 占星術師 賢者
+118,格斗家 枪术师 弓箭手 武僧 龙骑士 吟游诗人 双剑师 忍者 机工士 武士 舞者 钐镰客,PGL LNC ARC ROG MNK DRG BRD NIN MCH SAM DNC RPR,格闘士 槍術士 弓術士 モンク 竜騎士 吟遊詩人 双剣士 忍者 機工士 侍 踊り子 リーパー
+119,格斗家 枪术师 咒术师 武僧 龙骑士 黑魔法师 秘术师 召唤师 双剑师 忍者 武士 赤魔法师 青魔法师 钐镰客,PGL LNC THM ACN ROG MNK DRG BLM SMN NIN SAM RDM BLU RPR,格闘士 槍術士 呪術士 モンク 竜騎士 黒魔道士 巴術士 召喚士 双剣士 忍者 侍 赤魔道士 青魔道士 リーパー
+120,幻术师 咒术师 白魔法师 黑魔法师 秘术师 召唤师 学者 占星术士 赤魔法师 青魔法师 贤者,CNJ THM ACN WHM BLM SMN SCH AST RDM BLU SGE,幻術士 呪術士 白魔道士 黒魔道士 巴術士 召喚士 学者 占星術師 赤魔道士 青魔道士 賢者
+121,骑士 战士 暗黑骑士 绝枪战士,PLD WAR DRK GNB,ナイト 戦士 暗黒騎士 ガンブレイカー
+122,武僧 龙骑士 忍者 武士 钐镰客,MNK DRG NIN SAM RPR,モンク 竜騎士 忍者 侍 リーパー
+123,吟游诗人 机工士 舞者,BRD MCH DNC,吟遊詩人 機工士 踊り子
+124,黑魔法师 召唤师 赤魔法师 青魔法师,BLM SMN RDM BLU,黒魔道士 召喚士 赤魔道士 青魔道士
+125,白魔法师 学者 占星术士 贤者,WHM SCH AST SGE,白魔道士 学者 占星術師 賢者
+126,武僧 龙骑士 吟游诗人 忍者 机工士 武士 舞者 钐镰客,MNK DRG BRD NIN MCH SAM DNC RPR,モンク 竜騎士 吟遊詩人 忍者 機工士 侍 踊り子 リーパー
+127,武僧 龙骑士 黑魔法师 召唤师 忍者 武士 赤魔法师 青魔法师 钐镰客,MNK DRG BLM SMN NIN SAM RDM BLU RPR,モンク 竜騎士 黒魔道士 召喚士 忍者 侍 赤魔道士 青魔道士 リーパー
+128,白魔法师 黑魔法师 召唤师 学者 占星术士 赤魔法师 青魔法师 贤者,WHM BLM SMN SCH AST RDM BLU SGE,白魔道士 黒魔道士 召喚士 学者 占星術師 赤魔道士 青魔道士 賢者
+129,青魔法师,BLU,青魔道士
+130,所有（除设限特职）,All classes and jobs (excluding limited jobs),すべて (リミテッドジョブを除く)
+131,武僧 龙骑士 吟游诗人 黑魔法师 召唤师 忍者 机工士 武士 赤魔法师 舞者 钐镰客,MNK DRG BRD BLM SMN NIN MCH SAM RDM DNC RPR,モンク 竜騎士 吟遊詩人 黒魔道士 召喚士 忍者 機工士 侍 赤魔道士 踊り子 リーパー
+132,武僧 龙骑士 吟游诗人 白魔法师 黑魔法师 召唤师 学者 忍者 机工士 占星术士 武士 赤魔法师 舞者 钐镰客 贤者,MNK DRG BRD WHM BLM SMN SCH NIN MCH AST SAM RDM DNC RPR SGE,モンク 竜騎士 吟遊詩人 白魔道士 黒魔道士 召喚士 学者 忍者 機工士 占星術師 侍 赤魔道士 踊り子 リーパー 賢者
+133,白魔法师 学者 占星术士 贤者,WHM SCH AST SGE,白魔道士 学者 占星術師 賢者
+134,骑士 战士 暗黑骑士 绝枪战士,PLD WAR DRK GNB,ナイト 戦士 暗黒騎士 ガンブレイカー
+135,骑士 武僧 战士 龙骑士 吟游诗人 黑魔法师 召唤师 忍者 机工士 暗黑骑士 武士 赤魔法师 绝枪战士 舞者 钐镰客,PLD MNK WAR DRG BRD BLM SMN NIN MCH DRK SAM RDM GNB DNC RPR,ナイト モンク 戦士 竜騎士 吟遊詩人 黒魔道士 召喚士 忍者 機工士 暗黒騎士 侍 赤魔道士 ガンブレイカー 踊り子 リーパー
+136,骑士 战士 白魔法师 学者 暗黑骑士 占星术士 绝枪战士 贤者,PLD WAR WHM SCH DRK AST GNB SGE,ナイト 戦士 白魔道士 学者 暗黒騎士 占星術師 ガンブレイカー 賢者
+137,骑士 武僧 战士 龙骑士 吟游诗人 白魔法师 黑魔法师 召唤师 学者 忍者 机工士 暗黑骑士 占星术士 武士 赤魔法师 绝枪战士 舞者 钐镰客 贤者,PLD MNK WAR DRG BRD WHM BLM SMN SCH NIN MCH DRK AST SAM RDM GNB DNC RPR SGE,ナイト モンク 戦士 竜騎士 吟遊詩人 白魔道士 黒魔道士 召喚士 学者 忍者 機工士 暗黒騎士 占星術師 侍 赤魔道士 ガンブレイカー 踊り子 リーパー 賢者
+138,骑士 武僧 战士 龙骑士 忍者 暗黑骑士 武士 绝枪战士 钐镰客,PLD MNK WAR DRG NIN DRK SAM GNB RPR,ナイト モンク 戦士 竜騎士 忍者 暗黒騎士 侍 ガンブレイカー リーパー
+139,吟游诗人 机工士 舞者,BRD MCH DNC,吟遊詩人 機工士 踊り子
+140,白魔法师 黑魔法师 召唤师 学者 占星术士 赤魔法师 贤者,WHM BLM SMN SCH AST RDM SGE,白魔道士 黒魔道士 召喚士 学者 占星術師 赤魔道士 賢者
+141,骑士 武僧 战士 龙骑士 吟游诗人 白魔法师 黑魔法师 召唤师 学者 机工士 暗黑骑士 占星术士 武士 赤魔法师 绝枪战士 舞者 钐镰客 贤者,PLD MNK WAR DRG BRD WHM BLM SMN SCH MCH DRK AST SAM RDM GNB DNC RPR SGE,ナイト モンク 戦士 竜騎士 吟遊詩人 白魔道士 黒魔道士 召喚士 学者 機工士 暗黒騎士 占星術師 侍 赤魔道士 ガンブレイカー 踊り子 リーパー 賢者
+142,战斗精英和魔法导师（除设限特职）,Any Disciple of War or Magic (excluding limited jobs),ファイターとソーサラー (リミテッドジョブを除く)
+143,战斗精英（除设限特职）,Disciples of War (excluding limited jobs),ファイター (リミテッドジョブを除く)
+144,魔法导师（除设限特职）,Any Disciple of Magic (excluding limited jobs),ソーサラー (リミテッドジョブを除く)
+145,骑士 武僧 战士 龙骑士 吟游诗人 忍者 机工士 暗黑骑士 武士 绝枪战士 舞者 钐镰客,PLD MNK WAR DRG BRD NIN MCH DRK SAM GNB DNC RPR,ナイト モンク 戦士 竜騎士 吟遊詩人 忍者 機工士 暗黒騎士 侍 ガンブレイカー 踊り子 リーパー
+146,战斗精英 魔法导师 特职专用（除设限特职）,Any job of the Disciples of War or Magic (excluding limited jobs),ファイター ソーサラー ジョブ専用 (リミテッドジョブを除く)
+147,黑魔法师 召唤师 赤魔法师,BLM SMN RDM,黒魔道士 召喚士 赤魔道士
+148,武僧 龙骑士 忍者 武士 钐镰客,MNK DRG NIN SAM RPR,モンク 竜騎士 忍者 侍 リーパー
+149,绝枪战士,GNB,ガンブレイカー
+150,舞者,DNC,踊り子
+151,锻铁匠、铸甲匠、雕金匠,"BSM, ARM, GSM",鍛冶師、甲冑師、彫金師
+152,刻木匠、制革匠、裁衣匠,"CRP, LTW, WVR",木工師、革細工師、裁縫師
+153,炼金术士、烹调师,"ALC, CUL",錬金術師、調理師
+154,采矿工、园艺工,"MIN, BTN",採掘師、園芸師
+155,捕鱼人,FSH,漁師
+156,防护职业（设限特职除外）,Tank (excluding limited jobs),TANKジョブ(リミテッドジョブを除く)
+157,治疗职业（设限特职除外）,Healer (excluding limited jobs),HEALERジョブ (リミテッドジョブを除く)
+158,物理进攻职业（设限特职除外）,Physical DPS (excluding limited jobs),ファイター系DPSジョブ(リミテッドジョブを除く)
+159,魔法进攻职业（设限特职除外）,Magical Ranged DPS (excluding limited jobs),ソーサラー系DPSジョブ (リミテッドジョブを除く)
+160,秘术师 学者,ACN SCH,巴術士 学者
+161,剑术师 格斗家 斧术师 枪术师 弓箭手 骑士 武僧 战士 龙骑士 吟游诗人 双剑师 忍者 机工士 暗黑骑士 武士 绝枪战士 舞者 钐镰客,GLA PGL MRD LNC ARC PLD MNK WAR DRG BRD ROG NIN MCH DRK SAM GNB DNC RPR,剣術士 格闘士 斧術士 槍術士 弓術士 ナイト モンク 戦士 竜騎士 吟遊詩人 双剣士 忍者 機工士 暗黒騎士 侍 ガンブレイカー 踊り子 リーパー
+162,"骑士 武僧 战士 龙骑士 吟游诗人 白魔法师 黑魔法师 召唤师 学者 
+忍者 机工士 暗黑骑士 占星术士 武士 赤魔法师 绝枪战士 舞者",PLD MNK WAR DRG BRD WHM BLM SMN SCH NIN MCH DRK AST SAM RDM GNB DNC,"ナイト モンク 戦士 竜騎士 吟遊詩人 白魔道士 黒魔道士 召喚士 学者 
+忍者 機工士 暗黒騎士 占星術師 侍 赤魔道士 ガンブレイカー 踊り子"
+163,武僧 龙骑士 吟游诗人 黑魔法师 召唤师 忍者 机工士 武士 赤魔法师 舞者 钐镰客,MNK DRG BRD BLM SMN NIN MCH SAM RDM DNC RPR,モンク 竜騎士 吟遊詩人 黒魔道士 召喚士 忍者 機工士 侍 赤魔道士 踊り子 リーパー
+164,武僧 龙骑士 吟游诗人 白魔法师 黑魔法师 召唤师 学者 忍者 机工士 占星术士 武士 赤魔法师 舞者 钐镰客 贤者,MNK DRG BRD WHM BLM SMN SCH NIN MCH AST SAM RDM DNC RPR SGE,モンク 竜騎士 吟遊詩人 白魔道士 黒魔道士 召喚士 学者 忍者 機工士 占星術師 侍 赤魔道士 踊り子 リーパー 賢者
+165,白魔法师 学者 占星术士 贤者,WHM SCH AST SGE,白魔道士 学者 占星術師 賢者
+166,骑士 战士 暗黑骑士 绝枪战士,PLD WAR DRK GNB,ナイト 戦士 暗黒騎士 ガンブレイカー
+167,骑士 武僧 战士 龙骑士 吟游诗人 黑魔法师 召唤师 忍者 机工士 暗黑骑士 武士 赤魔法师 绝枪战士 舞者 钐镰客,PLD MNK WAR DRG BRD BLM SMN NIN MCH DRK SAM RDM GNB DNC RPR,ナイト モンク 戦士 竜騎士 吟遊詩人 黒魔道士 召喚士 忍者 機工士 暗黒騎士 侍 赤魔道士 ガンブレイカー 踊り子 リーパー
+168,骑士 战士 白魔法师 学者 暗黑骑士 占星术士 绝枪战士 贤者,PLD WAR WHM SCH DRK AST GNB SGE,ナイト 戦士 白魔道士 学者 暗黒騎士 占星術師 ガンブレイカー 賢者
+169,骑士 武僧 战士 龙骑士 吟游诗人 白魔法师 黑魔法师 召唤师 学者 忍者 机工士 暗黑骑士 占星术士 武士 赤魔法师 绝枪战士 舞者 钐镰客 贤者,PLD MNK WAR DRG BRD WHM BLM SMN SCH NIN MCH DRK AST SAM RDM GNB DNC RPR SGE,ナイト モンク 戦士 竜騎士 吟遊詩人 白魔道士 黒魔道士 召喚士 学者 忍者 機工士 暗黒騎士 占星術師 侍 赤魔道士 ガンブレイカー 踊り子 リーパー 賢者
+170,ナイト モンク 戦士 竜騎士 忍者 暗黒騎士 侍 ガンブレイカー リーパー,PLD MNK WAR DRG NIN DRK SAM GNB RPR,ナイト モンク 戦士 竜騎士 忍者 暗黒騎士 侍 ガンブレイカー リーパー
+171,吟游诗人 机工士 舞者,BRD MCH DNC,吟遊詩人 機工士 踊り子
+172,白魔法师 黑魔法师 召唤师 学者 占星术士 赤魔法师 贤者,WHM BLM SMN SCH AST RDM SGE,白魔道士 黒魔道士 召喚士 学者 占星術師 赤魔道士 賢者
+173,骑士 武僧 战士 龙骑士 吟游诗人 白魔法师 黑魔法师 召唤师 学者 机工士 暗黑骑士 占星术士 武士 赤魔法师 绝枪战士 舞者 钐镰客 贤者,PLD MNK WAR DRG BRD WHM BLM SMN SCH MCH DRK AST SAM RDM GNB DNC RPR SGE,ナイト モンク 戦士 竜騎士 吟遊詩人 白魔道士 黒魔道士 召喚士 学者 機工士 暗黒騎士 占星術師 侍 赤魔道士 ガンブレイカー 踊り子 リーパー 賢者
+174,骑士 武僧 战士 龙骑士 吟游诗人 忍者 机工士 暗黑骑士 武士 绝枪战士 舞者 钐镰客,PLD MNK WAR DRG BRD NIN MCH DRK SAM GNB DNC RPR,ナイト モンク 戦士 竜騎士 吟遊詩人 忍者 機工士 暗黒騎士 侍 ガンブレイカー 踊り子 リーパー
+175,黑魔法师 召唤师 赤魔法师,BLM SMN RDM,黒魔道士 召喚士 赤魔道士
+176,武僧 龙骑士 忍者 武士 钐镰客,MNK DRG NIN SAM RPR,モンク 竜騎士 忍者 侍 リーパー
+177,武僧 龙骑士 吟游诗人 忍者 机工士 武士 舞者 钐镰客,MNK DRG BRD NIN MCH SAM DNC RPR,モンク 竜騎士 吟遊詩人 忍者 機工士 侍 踊り子 リーパー
+178,ナイト 戦士 黒魔道士 召喚士 暗黒騎士 赤魔道士 ガンブレイカー,PLD WAR BLM SMN DRK RDM GNB,ナイト 戦士 黒魔道士 召喚士 暗黒騎士 赤魔道士 ガンブレイカー
+179,白魔法师 召唤师 学者 占星术士 赤魔法师 贤者,WHM SMN SCH AST RDM SGE,白魔道士 召喚士 学者 占星術師 赤魔道士 賢者
+180,钐镰客,RPR,リーパー
+181,贤者,SGE,賢者
+182,,,
+183,,,
+184,,,
+185,,,
+186,防护职业（设限特职除外）,Tank (excluding limited jobs),TANKジョブ(リミテッドジョブを除く)
+187,治疗职业（设限特职除外）,Healer (excluding limited jobs),HEALERジョブ(リミテッドジョブを除く)
+188,近战职业（设限特职除外）,Melee DPS (excluding limited jobs),近接物理DPSジョブ(リミテッドジョブを除く)
+189,远程物理进攻职业（设限特职除外）,Physical Ranged DPS (excluding limited jobs),遠隔物理DPSジョブ(リミテッドジョブを除く)
+190,远程魔法进攻职业（设限特职除外）,Magical Ranged DPS (excluding limited jobs),遠隔魔法DPSジョブ(リミテッドジョブを除く)
+191,,,
+192,,,
+193,,,
+194,,,
+195,,,
