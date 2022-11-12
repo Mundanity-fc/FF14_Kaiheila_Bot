@@ -293,7 +293,7 @@ class QuestSearch extends CommandParser
         //TextData.ToDo
         //任务具体信息筛选
         $searchCondition = "?columns=ID,
-        Banner,
+        IconHD,
         PlaceName.ID,
         GilReward,
         ExperiencePoints,
@@ -369,7 +369,7 @@ class QuestSearch extends CommandParser
         //'TodoList' => $data->TextData->ToDo,
         return array(1, array(
             'ID' => $data->ID,
-            'Banner' => $data->Banner,
+            'Banner' => $data->IconHD,
             'Icon' => $data->Icon,
             'Job' => $data->ClassJobCategory0->ID,
             'TodoList' => null,

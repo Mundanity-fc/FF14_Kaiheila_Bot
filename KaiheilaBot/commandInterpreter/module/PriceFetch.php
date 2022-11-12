@@ -38,10 +38,9 @@ class PriceFetch extends CommandParser
     }
 
     /*
- * 类属性初始化函数
- * 负责初始化非标准类属性
- * */
-
+     * 类属性初始化函数
+     * 负责初始化非标准类属性
+     * */
     private function splitArgs($command): array
     {
         //无参数情况
@@ -102,7 +101,6 @@ class PriceFetch extends CommandParser
      * 参数分割函数
      * 将任务指令后所跟参数进行再次分割，当不满足要求格式时进行报错
      * */
-
     private function getPriceURL(): array
     {
         $result = $this->db->getItemID($this->args['item'][0]);
@@ -221,7 +219,6 @@ class PriceFetch extends CommandParser
      * Universalis URL 合成函数
      * 根据参数合成指定的 URL
      * */
-
     private function getPrice($urlList): array
     {
         try {

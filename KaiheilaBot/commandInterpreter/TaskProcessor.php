@@ -201,6 +201,10 @@ class TaskProcessor
         $this->httpAPI->sendText($data[0], $data[1], $data[2], $data[3], $data[4]);
     }
 
+    /*
+     * 相应服务器查询函数
+     * 查询机器人的目前为止服务的服务器个数
+     * */
     private function checkServerList(): void
     {
         if ($this->db->isExistServer($this->messageInfo['serverID'])) {
